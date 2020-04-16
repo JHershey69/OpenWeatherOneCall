@@ -1,5 +1,5 @@
 /*
-   OpenWeather.cpp
+   OpenWeatherOneCall.cpp
    copyright 2020 - Jessica Hershey
    www.github.com/JHershey69
 
@@ -9,11 +9,11 @@
 */
 
 #include "Arduino.h"            // Basic Arduino Library
-#include "OpenWeatherSevenDay.h"
+#include "OpenWeatherOnecall.h"
 #include <HTTPClient.h>         // Required
 #include <ArduinoJson.h>        // Version 6 Required
 
-OpenWeatherSevenDay::OpenWeatherSevenDay() {
+OpenWeatherOneCall::OpenWeatherOneCall() {
 
 }
 
@@ -33,7 +33,7 @@ OpenWeatherSevenDay::OpenWeatherSevenDay() {
 String short_names[7] = {"SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"};
 
 
-void OpenWeatherSevenDay::getCoordinates(String googleKey) {
+void OpenWeatherOneCall::getCoordinates(String googleKey) {
 
   HTTPClient http;
 
@@ -125,14 +125,14 @@ void OpenWeatherSevenDay::getCoordinates(String googleKey) {
 
 
 
-void OpenWeatherSevenDay::parseWeather(String DKEY, String GKEY) {
+void OpenWeatherOneCall::parseWeather(String DKEY, String GKEY) {
 
   // Clear the struct for current weather
   memset(&current, 0, sizeof current);
 
 
-  OpenWeatherSevenDay::getCoordinates(GKEY);
-  
+  OpenWeatherOneCall::getCoordinates(GKEY);
+
 
   HTTPClient http;
 
