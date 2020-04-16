@@ -1,5 +1,5 @@
 /*
-   OpenWeatherSevenDay.h
+   OpenWeatherOnecall.h
    copyright 2020 - Jessica Hershey
    www.github.com/jHershey69
    7 day and current weather forecast based on current location
@@ -12,11 +12,11 @@
 #include "Arduino.h"
 
 
-class OpenWeatherSevenDay
+class OpenWeatherOneCall
 {
   public:
     //Constructor
-    OpenWeatherSevenDay();
+    OpenWeatherOneCall();
 
     //Methods
     void parseWeather(String DKEY, String GKEY);
