@@ -75,7 +75,7 @@ void setup() {
   Serial.println("");
   Serial.println("7 Day High Temperature Forecast:");
 
-  for (int y = 0; y < (sizeof(OWOC.forecast) / sizeof(DSSD.forecast[0])) - 1; y++) {
+  for (int y = 0; y < (sizeof(OWOC.forecast) / sizeof(OWOC.forecast[0])) - 1; y++) {
     //Date from epoch forecast[y].dayTime
     long DoW = OWOC.forecast[y].dayTime / 86400L;
     int day_of_week = (DoW + 4) % 7;
