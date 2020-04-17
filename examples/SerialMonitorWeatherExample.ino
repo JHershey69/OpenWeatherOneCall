@@ -3,10 +3,14 @@
    Open Weather One Call Library
    Copyright 2020 - Jessica Hershey
    www.github.com/JHershey69
+   
+   One Call API key at www.openweathermap.org
 
    SerialMonitorWeatherExample.ino
    
    Returns CURRENT and 7 DAY FORECAST
+   
+   Variables accessed as OWOC.current.temperature or OWOC.forecast[x].temperature (where x is day 0-6)
 */
 
 //WiFi Connection required
@@ -22,7 +26,7 @@
 #define HOMESSID "[put your SSID here]"
 #define HOMEPW "[put your password here]"
 
-#define ONECALLKEY "[put your Dark Sky Key here]"
+#define ONECALLKEY "[put your Open Weather One Call Key here]"
 #define GOOGLEKEY "[put your Google Key here]"
 
 
