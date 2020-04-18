@@ -19,7 +19,7 @@ class OpenWeatherOneCall
     OpenWeatherOneCall();
 
     //Methods
-    void parseWeather(String DKEY, String GKEY);
+    void parseWeather(String DKEY, String GKEY, String UTYPE);
 
 
     //Variables
@@ -47,7 +47,7 @@ class OpenWeatherOneCall
 
 
     struct futureData {
-      long dayTime; // 1582088400
+	  long dayTime; // 1582088400
       const char* summary; // "Partly cloudy throughout the day."
       const char* icon; // "partly-cloudy-day"
       long sunriseTime; // 1582112760
