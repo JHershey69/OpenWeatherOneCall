@@ -28,6 +28,7 @@
 
 #define ONECALLKEY "[put your Open Weather One Call Key here]"
 #define GOOGLEKEY "[put your Google Key here]"
+#define UNITSTYPE "metric"
 
 
 OpenWeatherOneCall OWOC; // <--------------------------- Invoke Library
