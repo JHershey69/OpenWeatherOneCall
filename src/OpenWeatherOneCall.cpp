@@ -24,7 +24,7 @@ OpenWeatherOneCall::OpenWeatherOneCall() {
 //#define msgDISPLAY tft
 
 #define DS_URL1 "https://api.openweathermap.org/data/2.5/onecall"
-#define DS_URL2 "&units=imperial&appid="
+#define DS_URL2 "&units=metric&appid="
 
 #define GEOLOCATIONURL "https://www.googleapis.com/geolocation/v1/geolocate"
 
@@ -125,7 +125,7 @@ void OpenWeatherOneCall::getCoordinates(String googleKey) {
 
 
 
-void OpenWeatherOneCall::parseWeather(String DKEY, String GKEY) {
+void OpenWeatherOneCall::parseWeather(String DKEY, String GKEY, String UTYPE) {
 
   // Clear the struct for current weather
   memset(&current, 0, sizeof current);
@@ -136,7 +136,7 @@ void OpenWeatherOneCall::parseWeather(String DKEY, String GKEY) {
 
   HTTPClient http;
 
-  String getURL = DS_URL1 + (String("?lat=")) + (String(latitude, 7)) + (String("&lon=")) + (String(longitude, 7)) + DS_URL2 + DKEY;
+  String getURL = DS_URL1 + (String("?lat=")) + (String(latitude, 7)) + (String("&lon=")) + (String(longitude, 7)) + "&units=" + UTYPE + "&appid=" + DKEY;
 
   http.begin(getURL);
   int httpCode = http.GET();
