@@ -9,7 +9,7 @@
 */
 
 #include "Arduino.h"            // Basic Arduino Library
-#include "OpenWeatherOnecall.h"
+#include "OpenWeatherOneCall.h"
 #include <HTTPClient.h>         // Required
 #include <ArduinoJson.h>        // Version 6 Required
 
