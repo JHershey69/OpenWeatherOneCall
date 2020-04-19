@@ -1,4 +1,3 @@
-
 /*
    Open Weather One Call Library
    Copyright 2020 - Jessica Hershey
@@ -19,15 +18,23 @@
 //Required libraries
 #include <ArduinoJson.h>
 #include "HTTPClient.h"
-#include "OpenWeatherOneCall.h"
+#include <OpenWeatherOneCall.h>
 
 //==================================================
 
-#define HOMESSID "[put your SSID here]"
-#define HOMEPW "[put your password here]"
+#define HOMESSID "USE YOUR INFO HERE"
+#define HOMEPW "USE YOUR INFO HERE"
 
-#define ONECALLKEY "[put your Open Weather One Call Key here]"
-#define GOOGLEKEY "[put your Google Key here]"
+#define ONECALLKEY "USE KEY FROM OPENWEATHERMAP DOT ORG"
+#define GOOGLEKEY "USE KEY FROM GOOGLE DEVELOPER FOR GEOLOCATION"
+
+
+// Los Angeles
+// float myLatitude = 34.0522; <-----------------------------in range to use GPS coordinates
+float myLatitude = 100; //<-------------------------------out of range to use GEOLOCATION
+float myLongitude = 118.2437;
+
+bool metric = false; //<------------------------------TRUE is METRIC, FALSE is IMPERIAL, BLANK is KELVIN
 
 
 OpenWeatherOneCall OWOC; // <--------------------------- Invoke Library
@@ -67,7 +74,7 @@ void setup() {
   // Get the Weather Forecast
   //=================================
 
-  OWOC.parseWeather(ONECALLKEY, GOOGLEKEY);
+  OWOC.parseWeather(ONECALLKEY, GOOGLEKEY, myLatitude, myLongitude, metric);
 
 
 //=================================================
