@@ -1,9 +1,10 @@
 /*
    OpenWeatherOnecall.h
+   v1.10
    copyright 2020 - Jessica Hershey
    www.github.com/jHershey69
    7 day and current weather forecast based on current location
-   NO GPS is required, uses WiFi triangulation to get location
+   Use WiFi triangulation to get location, or use GPS coordinates
 */
 
 #ifndef DS
@@ -19,7 +20,7 @@ class OpenWeatherOneCall
     OpenWeatherOneCall();
 
     //Methods
-    void parseWeather(String DKEY, String GKEY);
+    int parseWeather(char* DKEY, char* GKEY, float SEEK_LATITUDE, float SEEK_LONGITUDE, bool SET_UNITS);
 
 
     //Variables
@@ -92,16 +93,16 @@ class OpenWeatherOneCall
 
     float latitude;
     float longitude;
-    
+
 
   private:
 
     //Methods
-    void getCoordinates(String googleKey);
+    int getCoordinates(String googleKey);
 
     //Variables
 
-
+    char units[10];
 
 };
 
