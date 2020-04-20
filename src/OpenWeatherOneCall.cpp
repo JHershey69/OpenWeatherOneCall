@@ -142,15 +142,10 @@ int OpenWeatherOneCall::parseWeather(char* DKEY, char* GKEY, float SEEK_LATITUDE
     if((!GKEY)&&(!CITY_ID))
     {
         sprintf(getURL,"%s?lat=%.6f&lon=%.6f%s%s%s%s",DS_URL1,SEEK_LATITUDE,SEEK_LONGITUDE,DS_URL2,units,DS_URL3,DKEY);
-        Serial.print("NULL GKEY: ");
-        Serial.println(getURL);
     }
     else if (CITY_ID)
     {
         sprintf(getURL,"%s?id=%d%s%s%s%s",DS_URL1,CITY_ID,DS_URL2,units,DS_URL3,DKEY);
-        Serial.print("CITY ID URL: ");
-        Serial.println(getURL);
-
     }
     else
     {
