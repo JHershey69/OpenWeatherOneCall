@@ -1,10 +1,11 @@
 /*
    OpenWeatherOnecall.h
-   v1.10
+   Minor Upgrade v1.11 (Added new parameter for City ID future usage)
+   
    copyright 2020 - Jessica Hershey
    www.github.com/jHershey69
    7 day and current weather forecast based on current location
-   Use WiFi triangulation to get location, or use GPS coordinates
+   NO GPS is required, uses WiFi triangulation to get location
 */
 
 #ifndef DS
@@ -20,7 +21,7 @@ class OpenWeatherOneCall
     OpenWeatherOneCall();
 
     //Methods
-    int parseWeather(char* DKEY, char* GKEY, float SEEK_LATITUDE, float SEEK_LONGITUDE, bool SET_UNITS);
+    int parseWeather(char* DKEY, char* GKEY, float SEEK_LATITUDE, float SEEK_LONGITUDE, bool SET_UNITS, int CITY_ID);
 
 
     //Variables
