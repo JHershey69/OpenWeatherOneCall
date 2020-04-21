@@ -1,5 +1,5 @@
 /*
-   OpenWeatherOneCall.cpp v1.10
+   OpenWeatherOneCall.cpp v1.11 (Added new routine for URL creation and parameter for future City ID usage)
    copyright 2020 - Jessica Hershey
    www.github.com/JHershey69
 
@@ -93,7 +93,7 @@ int OpenWeatherOneCall::getCoordinates(String googleKey)
 
     if (httpCode > 399)
     {
-       return httpCode;
+        return httpCode;
 
     }
     // Setting the parsing routine
@@ -118,11 +118,13 @@ int OpenWeatherOneCall::getCoordinates(String googleKey)
 
 
 
-int OpenWeatherOneCall::parseWeather(char* DKEY, char* GKEY, float SEEK_LATITUDE, float SEEK_LONGITUDE, bool SET_UNITS)
+int OpenWeatherOneCall::parseWeather(char* DKEY, char* GKEY, float SEEK_LATITUDE, float SEEK_LONGITUDE, bool SET_UNITS, int CITY_ID)
 {
 
     // Clear the struct for current weather
     memset(&current, 0, sizeof current);
+
+    char getURL[200] = {0};
 
     // F/C/K units
 
@@ -134,29 +136,29 @@ int OpenWeatherOneCall::parseWeather(char* DKEY, char* GKEY, float SEEK_LATITUDE
         strcpy(units,"imperial");
 
 
-    if((SEEK_LATITUDE > -90 && SEEK_LATITUDE < 90) && (SEEK_LONGITUDE > -180 && SEEK_LONGITUDE < 180))
-    {
-        latitude = SEEK_LATITUDE;
-        longitude = SEEK_LONGITUDE;
-    }
-    else if (GKEY)
-    {
-        OpenWeatherOneCall::getCoordinates(GKEY);
-    }
-    else
-        return -1;
-
-
     HTTPClient http;
 
-    String getURL = DS_URL1 + (String("?lat=")) + (String(latitude, 7)) + (String("&lon=")) + (String(longitude, 7)) + DS_URL2 + units + DS_URL3 + DKEY;
+
+    if((!GKEY)&&(!CITY_ID))
+    {
+        sprintf(getURL,"%s?lat=%.6f&lon=%.6f%s%s%s%s",DS_URL1,SEEK_LATITUDE,SEEK_LONGITUDE,DS_URL2,units,DS_URL3,DKEY);
+    }
+    else if (CITY_ID)
+    {
+        sprintf(getURL,"%s?id=%d%s%s%s%s",DS_URL1,CITY_ID,DS_URL2,units,DS_URL3,DKEY);
+    }
+    else
+    {
+        OpenWeatherOneCall::getCoordinates(GKEY);
+        sprintf(getURL,"%s?lat=%.6f&lon=%.6f%s%s%s%s",DS_URL1,latitude,longitude,DS_URL2,units,DS_URL3,DKEY);
+    }
 
     http.begin(getURL);
     int httpCode = http.GET();
 
     if (httpCode > 399)
     {
-       return httpCode;
+        return httpCode;
     }
 
     const size_t capacity = 56 * JSON_ARRAY_SIZE(1) + JSON_ARRAY_SIZE(2) + JSON_ARRAY_SIZE(8) + JSON_ARRAY_SIZE(48) + 14 * JSON_OBJECT_SIZE(1) + 66 * JSON_OBJECT_SIZE(4) + 9 * JSON_OBJECT_SIZE(6) + 35 * JSON_OBJECT_SIZE(10) + 13 * JSON_OBJECT_SIZE(11) + 4 * JSON_OBJECT_SIZE(13) + 4 * JSON_OBJECT_SIZE(14) + JSON_OBJECT_SIZE(16) + 9190;
