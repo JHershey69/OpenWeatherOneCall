@@ -30,8 +30,7 @@
 
 
 // Los Angeles
-// float myLatitude = 34.0522; <-----------------------------in range to use GPS coordinates
-float myLatitude = 100; //<-------------------------------out of range to use GEOLOCATION
+float myLatitude = 34.0522; <-----------------------------in range to use GPS coordinates
 float myLongitude = 118.2437;
 
 bool metric = false; //<------------------------------TRUE is METRIC, FALSE is IMPERIAL, BLANK is KELVIN
