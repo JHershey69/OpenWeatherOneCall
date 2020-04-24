@@ -1,5 +1,5 @@
 /*
-   OpenWeatherOneCall.cpp v1.11 (Added new routine for URL creation and parameter for future City ID usage)
+   OpenWeatherOneCall.cpp v1.2.0 (Added new routine for City ID usage)
    copyright 2020 - Jessica Hershey
    www.github.com/JHershey69
 
@@ -12,6 +12,7 @@
 #include "OpenWeatherOneCall.h"
 #include <HTTPClient.h>         // Required
 #include <ArduinoJson.h>        // Version 6 Required
+#include "NAComplete.h"          // Must include for City ID search North America ONLY CA/US/MX
 
 OpenWeatherOneCall::OpenWeatherOneCall()
 {
@@ -145,7 +146,38 @@ int OpenWeatherOneCall::parseWeather(char* DKEY, char* GKEY, float SEEK_LATITUDE
     }
     else if (CITY_ID)
     {
-        sprintf(getURL,"%s?id=%d%s%s%s%s",DS_URL1,CITY_ID,DS_URL2,units,DS_URL3,DKEY);
+
+        // Binary search the database ht[TABLE_SIZE]
+        int first = 1;
+        int last = TABLE_SIZE-1;
+        int middle = (first + last)/2;
+
+        while(first <= last)
+        {
+            if(ht[middle].city_code < CITY_ID)
+            {
+                first = middle+1;
+            }
+            else if ( ht[middle].city_code == CITY_ID)
+            {
+                SEEK_LATITUDE = ht[middle].lat;
+                SEEK_LONGITUDE = ht[middle].lon;
+                sprintf(getURL,"%s?lat=%.6f&lon=%.6f%s%s%s%s",DS_URL1,SEEK_LATITUDE,SEEK_LONGITUDE,DS_URL2,units,DS_URL3,DKEY);
+                break;
+            }
+            else
+                last = middle -1;
+            middle = (first+last)/2;
+        }
+
+        if(first > last)
+        {
+            SEEK_LATITUDE = ht[last].lat;
+            SEEK_LONGITUDE = ht[last].lon;
+            sprintf(getURL,"%s?lat=%.6f&lon=%.6f%s%s%s%s",DS_URL1,SEEK_LATITUDE,SEEK_LONGITUDE,DS_URL2,units,DS_URL3,DKEY);
+
+        }
+
     }
     else
     {
@@ -183,13 +215,13 @@ int OpenWeatherOneCall::parseWeather(char* DKEY, char* GKEY, float SEEK_LATITUDE
     current.icon = currently["weather"][0]["main"];
 
 
-    //===================================
-    // FOR loop to fill the 8 day struct
-    //===================================
+//===================================
+// FOR loop to fill the 8 day struct
+//===================================
 
 
     JsonArray daily = doc["daily"];
-    // JsonObject daily_0 = daily[0];
+// JsonObject daily_0 = daily[0];
 
 
     for (int x = 0; x < (sizeof(forecast) / sizeof(forecast[0])) - 1; x++)
@@ -221,8 +253,8 @@ int OpenWeatherOneCall::parseWeather(char* DKEY, char* GKEY, float SEEK_LATITUDE
     }
 
 
-    //*************************END OF FOR LOOP
-    //****************************************
+//*************************END OF FOR LOOP
+//****************************************
 
 
 
