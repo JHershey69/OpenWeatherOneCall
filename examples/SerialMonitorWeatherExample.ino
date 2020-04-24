@@ -1,5 +1,6 @@
 /*
    Open Weather One Call Library
+   v1.2.0
    Copyright 2020 - Jessica Hershey
    www.github.com/JHershey69
    
@@ -74,14 +75,17 @@ void setup() {
   //=================================
 
   // Examples of calls:
-  // For manual coordinates or GPS
-  // OWOC.parseWeather(ONECALLKEY, NULL, myLatitude, myLongitude, metric,NULL)
-  // For GEOLOCATION BASED ON WiFi
-  // OWOC.parseWeather(ONECALLKEY, GOOGLEKEY, NULL, NULL, metric,NULL)
-  // For call by City ID (not active as of v1.11 for future use)
-  // OWOC.parseWeather(ONECALLKEY, NULL, NULL, NULL, metric,city_id)
    
-  OWOC.parseWeather(ONECALLKEY, GOOGLEKEY, myLatitude, myLongitude, metric,city_id); //<---- V1.11 added city_id parameter
+  // For manual coordinates or GPS
+  // OWOC.parseWeather(ONECALLKEY, NULL, myLatitude, myLongitude, metric, NULL)
+  
+   // For GEOLOCATION BASED ON WiFi
+  // OWOC.parseWeather(ONECALLKEY, GOOGLEKEY, NULL, NULL, metric, NULL)
+  
+   // For call by City ID (active as of v1.2.0)
+  // OWOC.parseWeather(ONECALLKEY, NULL, NULL, NULL, metric, city_id)
+   
+  OWOC.parseWeather(ONECALLKEY, GOOGLEKEY, myLatitude, myLongitude, metric, city_id); 
 
 
 //=================================================
