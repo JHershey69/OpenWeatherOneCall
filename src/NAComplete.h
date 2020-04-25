@@ -1,4 +1,4 @@
-typedef struct NA {
+typedef const struct NA {
 int city_code;
 float lat, lon;
 } cities;
