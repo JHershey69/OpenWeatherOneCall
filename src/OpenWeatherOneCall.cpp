@@ -244,8 +244,8 @@ int OpenWeatherOneCall::parseWeather(char* DKEY, char* GKEY, float SEEK_LATITUDE
         forecast[x].windSpeed = daily[x]["wind_speed"]; // 14.2
         forecast[x].windBearing = daily[x]["wind_deg"]; // 180
 
-        forecast[x].precipType = daily[x]["weather"][x]["main"]; // "Rain"
-        forecast[x].icon = daily[x]["weather"][x]["main"]; // "10d"
+        forecast[x].precipType = daily[x]["weather"][0]["main"]; // "Rain"
+        forecast[x].icon = daily[x]["weather"][0]["icon"]; // "10d"
 
         forecast[x].cloudCover = daily[x]["clouds"]; // 95
         forecast[x].precipIntensity = daily[x]["rain"]; // 23.31
