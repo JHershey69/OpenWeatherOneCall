@@ -1,4 +1,4 @@
-# OpenWeatherOneCall v1.2.0
+# OpenWeatherOneCall v1.2.2
 Open Weather One Call library to gather current and 7 day weather information
 <br>Requires a One Call API Key from http://openweathermap.org<br>An <strong>optional</strong> GOOGLE API Key for geolocation through WiFi is available at https://developers.google.com/maps/documentation/javascript/get-api-key<br>Weather for ANY location can be gathered by sending location coordinates manually, via GPS, or using a CITY ID.
 <hr>
