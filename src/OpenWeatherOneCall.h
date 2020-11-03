@@ -1,6 +1,6 @@
 /*
    OpenWeatherOnecall.h
-   Upgrade v1.3.0 (Added options for excludes)
+   Upgrade v1.3.1 (Added data variables)
 
    copyright 2020 - Jessica Hershey
    www.github.com/jHershey69

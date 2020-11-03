@@ -1,12 +1,12 @@
 /*
-   OpenWeatherOneCall.cpp v1.3.0 (Added new routine for City ID usage)
+   OpenWeatherOneCall.cpp v1.3.1 (Added data variables)
    copyright 2020 - Jessica Hershey
    www.github.com/JHershey69
 
-   Open Weather Seven Day Forecast Library
-   Seven Day and Current Weather Conditions
+   Open Weather Map - Weather Conditions
    Viva La Resistance
 
+   Version upgrade 1.2.0 - Added CITY ID option
    Version upgrade 1.3.0 - Added exclude values for API call
 */
 
