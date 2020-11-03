@@ -153,15 +153,9 @@ int OpenWeatherOneCall::parseWeather(char* DKEY, char* GKEY, float SEEK_LATITUDE
             if (exclude.all_excludes >> x & 1)
             {
                 strcat(DS_URL2,EXCL_NAMES[x]);
-                if (x == 0)
-                {
-                    strcat(DS_URL2,",");
-                }
-                else if ((exclude.all_excludes >> x + 1 & 1) && (x > 0 && x < 4))
-                {
-                    strcat(DS_URL2,",");
-                }
-
+                strcat(DS_URL2,",");
+                
+             
                 if (x < (sizeof(EXCL_NAMES) / sizeof(EXCL_NAMES[0])) - 1)
                 {
                     SIZE_CAPACITY -= EXCL_SIZES[x]; //<-------- sets size for JSON const char*
