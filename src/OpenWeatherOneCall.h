@@ -1,9 +1,9 @@
 /*
    OpenWeatherOnecall.h
-   Upgrade v1.3.1 (Added data variables)
-
+   Upgrade v2.0.0
    copyright 2020 - Jessica Hershey
    www.github.com/jHershey69
+
    7 day and current weather forecast based on current location
    NO GPS is required, uses WiFi triangulation to get location
 */
@@ -21,7 +21,7 @@ public:
     OpenWeatherOneCall();
 
     //Methods
-    int parseWeather(char* DKEY, char* GKEY, float SEEK_LATITUDE, float SEEK_LONGITUDE, bool SET_UNITS, int CITY_ID, int API_EXCLUDES);
+    int parseWeather(char* DKEY, char* GKEY, float SEEK_LATITUDE, float SEEK_LONGITUDE, bool SET_UNITS, int CITY_ID, int API_EXCLUDES, int GET_HISTORY);
 
 
     //Variables
@@ -152,6 +152,29 @@ public:
         const char* description;
     } alert[2];
 
+
+    struct HISTORICAL
+    {
+        long dt; // 1604242490
+        long sunrise; // 1604230151
+        long sunset; // 1604267932
+        float temp; // 285.9
+        float feels_like; // 283.42
+        int pressure; // 1016
+        int humidity; // 76
+        float dew_point; // 281.78
+        float uvi; // 3.1
+        int clouds; // 90
+        int visibility; // 16093
+        float wind_speed; // 3.1
+        int wind_deg; // 160
+        int id; // 804
+        const char* main; // "Clouds"
+        const char* description; // "overcast clouds"
+        const char* icon; // "04d"
+
+    }history[25];
+
     String short_names[7] = {"SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"};
 
     float latitude;
@@ -162,6 +185,7 @@ private:
 
     //Methods
     int getCoordinates(String googleKey);
+
 
     //Variables
 
