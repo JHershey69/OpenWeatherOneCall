@@ -313,7 +313,7 @@ int OpenWeatherOneCall::parseWeather(char* DKEY, char* GKEY, float SEEK_LATITUDE
 
         // EPOCH Time for NOW, minus day number requested in argument ****
 
-        long EPOCH_DATE = (timeClient.getEpochTime() - (86400 * HISTORY));
+        long EPOCH_DATE = (timeClient.getEpochTime() - (86400 * GET_HISTORY));
 
         // Create URL for API Call for Historical Weather Data
 
