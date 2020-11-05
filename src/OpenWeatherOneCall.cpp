@@ -1,5 +1,5 @@
 /*
-   OpenWeatherOneCall.cpp v2.0.0
+   OpenWeatherOneCall.cpp v2.0.2
    copyright 2020 - Jessica Hershey
    www.github.com/JHershey69
 
@@ -10,6 +10,8 @@
    Version upgrade 1.2.0 - Added CITY ID option
    Version upgrade 1.3.0 - Added exclude values for API call
    Version 2.0.0 - Added HISTORICAL WEATHER, uses UNIX EPOCH TIMESTAMP see DOCs
+   Version 2.0.1 - Fixed Historical Data bug for EPOCH calculation
+   Version 2.0.2 - Added units (Kelvin/Metric/Imperial) to Historical
 */
 
 #include "Arduino.h"            // Basic Arduino Library
@@ -317,7 +319,7 @@ int OpenWeatherOneCall::parseWeather(char* DKEY, char* GKEY, float SEEK_LATITUDE
 
         // Create URL for API Call for Historical Weather Data
 
-        sprintf(getURL,"%s?lat=%.6f&lon=%.6f%s%ld%s%s",TS_URL1,latitude,longitude,TS_URL2,EPOCH_DATE,DS_URL3,DKEY);
+        sprintf(getURL,"%s?lat=%.6f&lon=%.6f%s%ld&units=%s%s%s",TS_URL1,latitude,longitude,TS_URL2,EPOCH_DATE,units,DS_URL3,DKEY);
 
         http.begin(getURL);             //<------------ Connect to OpenWeatherMap
         int httpCode = http.GET();
