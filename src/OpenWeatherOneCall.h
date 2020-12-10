@@ -11,7 +11,18 @@
 #ifndef DS
 #define DS
 
-#include "Arduino.h"
+#include <Arduino.h>
+#include <HTTPClient.h>         // Required
+#include <ArduinoJson.h>        // Version 6 Required
+#include "NAComplete.h"         // Must include for City ID search North America ONLY CA/US/MX
+
+// For Historical Data - Need UNIX EPOCH TIMESTAMP
+
+#include <NTPClient.h>
+#include <WiFiUdp.h>
+
+
+
 
 
 class OpenWeatherOneCall
