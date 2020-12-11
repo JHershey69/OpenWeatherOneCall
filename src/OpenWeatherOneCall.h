@@ -22,9 +22,6 @@
 #include <WiFiUdp.h>
 
 
-
-
-
 class OpenWeatherOneCall
 {
 public:
