@@ -14,18 +14,7 @@
    Version 2.0.2 - Added units (Kelvin/Metric/Imperial) to Historical
 */
 
-#include "Arduino.h"            // Basic Arduino Library
 #include "OpenWeatherOneCall.h"
-#include <HTTPClient.h>         // Required
-#include <ArduinoJson.h>        // Version 6 Required
-#include "NAComplete.h"         // Must include for City ID search North America ONLY CA/US/MX
-
-// For Historical Data - Need UNIX EPOCH TIMESTAMP
-
-#include <NTPClient.h>
-#include <WiFiUdp.h>
-
-
 
 
 OpenWeatherOneCall::OpenWeatherOneCall()
