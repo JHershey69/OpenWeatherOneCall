@@ -1,1 +1,1 @@
-Default README
+**Documentation for v3.0.0**

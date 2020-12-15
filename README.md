@@ -1,14 +1,14 @@
-# OpenWeatherOneCall v2.0.2
-(THIS IS FOR THE ESP32, does NOT operate on other Arduino systems)
+# OpenWeatherOneCall v3.0.0   ![IMAGE OF LIGHTNING](https://github.com/JHershey69/OpenWeatherOneCall/blob/Version-Upgrade/images/lightning.jpg)
+## This is for ESP32 only 
 
-Open Weather One Call library to gather weather information from OpenWeatherMap
-<br>Requires a One Call API Key from http://openweathermap.org<br>An <strong>optional</strong> GOOGLE API Key for geolocation through WiFi is available at https://developers.google.com/maps/documentation/javascript/get-api-key<br>Weather for ANY location can be gathered by sending location coordinates manually, via GPS, or using a CITY ID.
+**OpenWeatherOneCall** library to gather weather information from OpenWeatherMap
+<br>Requires a One Call API Key from http://openweathermap.org (Some fees involved for some actions, see documentation)<br>
+An _**optional**_ [GOOGLE API Key](https://developers.google.com/maps/documentation/javascript/get-api-key) for WiFi Triangulation<br> 
+Please install [**WiFiTri Library**](http://www.github.com/jhershey69/WiFiTri) for WiFi Triangulation
 <hr>
-This library is the easiest method for gathering information from <strong>One Weather Map</strong> using the <strong>One Call API</strong>.<br><cite>For Dark Sky users migrating to a new system all previously used DarkSkySevenDay current and 7 day variables remain intact with noted exceptions</cite><br><br><strong>OpenWeatherOneCall v1.2.0</strong> includes the implementation of CITY_ID as an option to geolocation or GPS coordinates <br><strong>OpenWeatherOneCall v1.3.0</strong> brings you the option to designate EXCLUDEs in your call to avoid receiving info and using precious memory space <br><strong>OpenWeatherOneCall v1.3.1</strong> adds a few NEW data variables and provides a variables list PDF<br><br><strong>OpenWeatherOneCall v2.0.0</strong> adds all remaining data variables and provides a variables list PDF, adds ability to get HISTORICAL data for any day 5 days before TODAY<br><strong>OpenWeatherOneCall v2.0.2</strong> adds "units" to Historical<strong><cite><br>Please make sure you read all documentation to become familiar with the calling routine.</cite></strong>If you are upgrading from a previous version the call requires additional parameters!<br>Thank you for your patience while we gather our wits<br>during this change in the weather.<br><hr>
+The easiest method for gathering information from Open Weather Map using the **One Call API**
 
-<br>If you are coming here from the DarkSky service, please be sure you understand which variables no longer exist!<br>
-<strong>**DEPRECATED DARKSKY VARIABLES FOR CURRENT WEATHER**</strong><br>
-nearestStormDistance<br>nearestStormBearing<br>precipIntensity<br>precipProbability<br>ozone<br><hr>
-<strong>**DEPRECATED DARKSKY VARIABLES FOR FUTURE FORECASTS**</strong><br>
-summary<br>moonPhase<br>precipIntensityMax<br>precipIntensityMaxTime<br>precipProbability<br>temperatureHighTime<br>temperatureLowTime<br>apparentTemperatureLowTime<br>windGust<br>windGustTime<br>uvIndexTime<br>ozone<br>temperatureMinTime<br>temperatureMaxTime<br>apparentTemperatureMaxTime<br>apparentTemperatureMinTime<br>
-<strong>PLEASE, PLEASE, PLEASE read the supplied documentation!</strong>
+For **Dark Sky** users migrating to a new system please refer to the Variables Document for changes.
+
+## Please make sure you read the User Manual as v3.0.0 has many changes and new information
+v3.0.0 has a **Legacy Mode** to maintain ease of use for previous versions

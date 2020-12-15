@@ -1,0 +1,46 @@
+{
+  "name": "OpenWeatherOneCall",
+  "version": "3.0.0",
+  "keywords": "openweather, darksky, weather, esp32, arduino",
+  "description": "OpenWeatherMap Library to use One Call on the ESP32. This library allows the ESP32 to receive and parse the json from OpenWeathermap",
+  "dependencies": 
+  [
+	{
+	"name": "ArduinoJson",
+	"version": "^6.17.2"
+	},
+	{
+	"name": "NTPClient",
+	"version" : "^3.1.0"
+	},
+	{
+	"name": "WiFiUdp",
+	"version": "^1.0"
+  	}
+  ], 
+  "repository": 
+  [
+	{
+    		"type": "git",
+    		"url": "https://github.com/jhershey69/OpenWeatherOnecall.git"
+   	}
+  ],
+  "authors": 
+  [
+	{
+    		"name": "JHershey69",
+    		"email": "jamiehershey2@gmail.com"
+  	}
+  ],
+  "license": "GPL-3.0-or-later",
+  "export":
+	{
+		"include":
+		[
+			"OpenWeatherOneCall.h"
+		]
+	},
+  "frameworks": "arduino",
+  "board": "esp32dev",
+  "platforms": "espressif32"
+}
