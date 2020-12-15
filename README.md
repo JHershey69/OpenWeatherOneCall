@@ -7,8 +7,8 @@ Please install **WiFiTri Library** for WiFi Triangulation
 
 Weather for _ANY_ location can be gathered by sending location coordinates manually, GPS, IP ADDRESS or using a CITY ID.
 <hr>
-This library is the easiest method for gathering information from **Open Weather Map** using the **One Call API**.
-_For Dark Sky users migrating to a new system all previously used **DarkSkySevenDay current and 7 day variables** remain intact with noted exceptions._
+This library is the easiest method for gathering information from Open Weather Map using the <strong>One Call API</strong>.
+For Dark Sky users migrating to a new system all previously used DarkSkySevenDay current and 7 day variables remain intact with noted exceptions
 
 <strong>OpenWeatherOneCall v1.2.0</strong> includes the implementation of CITY_ID as an option to geolocation or GPS coordinates <br><strong>OpenWeatherOneCall v1.3.0</strong> brings you the option to designate EXCLUDEs in your call to avoid receiving info and using precious memory space <br><strong>OpenWeatherOneCall v1.3.1</strong> adds a few NEW data variables and provides a variables list PDF<br><br><strong>OpenWeatherOneCall v2.0.0</strong> adds all remaining data variables and provides a variables list PDF, adds ability to get HISTORICAL data for any day 5 days before TODAY<br><strong>OpenWeatherOneCall v2.0.2</strong> adds "units" to Historical<strong><cite><br>Please make sure you read all documentation to become familiar with the calling routine.</cite></strong>If you are upgrading from a previous version the call requires additional parameters!<br>Thank you for your patience while we gather our wits<br>during this change in the weather.<br><hr>
 
