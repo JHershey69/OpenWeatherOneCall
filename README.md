@@ -8,6 +8,7 @@ Please install [**WiFiTri Library**](http://www.github.com/jhershey69/WiFiTri) f
 <hr>
 The easiest method for gathering information from Open Weather Map using the **One Call API**
 
-For Dark Sky users migrating to a new system please refer to the Variables Document for changes.
+For **Dark Sky** users migrating to a new system please refer to the Variables Document for changes.
 
 ## Please make sure you read the User Manual as v3.0.0 has many changes and new information
+v3.0.0 has a **Legacy Mode** to maintain ease of use for previous versions
