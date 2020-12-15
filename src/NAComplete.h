@@ -1,3 +1,5 @@
+//After v3.0.0 this is no longer used
+
 typedef const struct NA {
 int city_code;
 float lat, lon;
