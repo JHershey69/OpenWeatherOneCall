@@ -3,7 +3,7 @@
 
 **OpenWeatherOneCall** library to gather weather information from OpenWeatherMap
 <br>Requires a One Call API Key from http://openweathermap.org (Some fees involved for some actions, see documentation)<br>
-An _**optional**_ GOOGLE API Key for WiFi Triangulation is available at https://developers.google.com/maps/documentation/javascript/get-api-key
+An _**optional**_ [GOOGLE API Key](https://developers.google.com/maps/documentation/javascript/get-api-key) for WiFi Triangulation<br> 
 Please install [**WiFiTri Library**](http://www.github.com/jhershey69/WiFiTri) for WiFi Triangulation
 <hr>
 The easiest method for gathering information from Open Weather Map using the **One Call API**
