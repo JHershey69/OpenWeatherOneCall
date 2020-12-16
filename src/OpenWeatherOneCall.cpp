@@ -988,7 +988,7 @@ void OpenWeatherOneCall::freeMinuteMem(void)
         }
 }
 
-char* OpenWeatherOneCall::getErrorMsg(int errorMsg){
+char* OpenWeatherOneCall::getErrorMsgs(int errorMsg){
 strcpy_P(buffer, (char*)pgm_read_dword(&(errorMsgs[errorMsg])));
 return buffer;
 }
