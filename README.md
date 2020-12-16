@@ -1,4 +1,4 @@
-# OpenWeatherOneCall v3.0.0   ![IMAGE OF LIGHTNING](https://github.com/JHershey69/OpenWeatherOneCall/images/lightning.jpg)
+# OpenWeatherOneCall v3.0.0   ![IMAGE OF LIGHTNING](https://github.com/JHershey69/OpenWeatherOneCall//tree/master/images/lightning.jpg)
 ## This is for ESP32 only 
 
 **OpenWeatherOneCall** library to gather weather information from OpenWeatherMap
