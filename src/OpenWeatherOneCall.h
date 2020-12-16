@@ -23,6 +23,7 @@
 
 #include <Arduino.h>  // Basic Arduino Library
 #include <string.h>
+#include "errMsgs.h"
 
 // Excludes
 #define EXCL_C 1  //Exclude Current
@@ -46,14 +47,18 @@ public:
 
     //Methods
     int parseWeather(void);
+
     void initAPI(void);
     int setOpenWeatherKey(char* owKey);
+
     int setLatLon(float _LAT, float _LON);
     int setLatLon(int _CITY_ID);
     int setLatLon(void);
+
     int setExcl(int _EXCL);
     int setUnits(int _UNIT);
     int setHistory(int _HIS);
+    char* getErrorMsgs(int errorMsg);
 
     //Legacy Method
     int parseWeather(char* DKEY, char* GKEY, float SEEK_LATITUDE, float SEEK_LONGITUDE, bool SET_UNITS, int CITY_ID, int API_EXCLUDES, int GET_HISTORY);
@@ -101,25 +106,31 @@ public:
         long dayTime; // 1582088400
         long sunriseTime; // 1582112760
         long sunsetTime; // 1582151880
+
         float temperatureDay; // 51.24
         float temperatureLow; // 30.17
         float temperatureHigh; // 51.24
         float temperatureNight; // 26.83
         float temperatureEve;
         float temperatureMorn;
+
         float apparentTemperatureHigh; // 50.76
         float apparentTemperatureLow; // 19.9
         float apparentTemperatureEve; // 50.76
         float apparentTemperatureMorn; // 19.9
+
+
         float pressure; // 1024.1
         float humidity; // 0.54
         float dewPoint; // 26.79
         float windSpeed; // 6.49
         float windBearing; // 324
+
         float id; //800
         char* main; // "rain" this is main
         char* summary; //description in json
         char* icon; //"02d"
+
         float cloudCover; // 0.53
         float pop;
         float uvIndex; // 3
@@ -139,6 +150,7 @@ public:
         float visibility; // 10000
         float windSpeed; // 22.77
         float windBearing; // 300
+
         float id; // 801
         char* main; // "Clouds"
         char* summary; // "few clouds"
@@ -188,7 +200,7 @@ public:
     } *history = NULL; //[25]
 
     const char* short_names[7] = {"SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"};
-
+    char buffer[40];
 
 private:
 
@@ -202,14 +214,20 @@ private:
     int setExcludes(int EXCL);
     void setWeekdayName(long dayTime, int x);
     int getLocationInfo();
+
     void freeCurrentMem(void);
     void freeForecastMem(void);
     void freeAlertMem(void);
     void freeHourMem(void);
     void freeMinuteMem(void);
 
+
+
+
     //Variables
-   
+
+
+    // For eventual struct calls
     struct apiInfo
     {
         char OPEN_WEATHER_DKEY[100] = {NULL};
@@ -220,9 +238,12 @@ private:
         int OPEN_WEATHER_HISTORY = NULL;
     } USER_PARAM;
 
+
     char units[10] = "IMPERIAL";
     char _ipapiURL[38];
     int sumlen;
+
+
     int summary_len = 0;
 
     //BITFIELDS for exclude flags
