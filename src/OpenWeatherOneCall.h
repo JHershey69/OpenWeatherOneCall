@@ -58,7 +58,7 @@ public:
     int setExcl(int _EXCL);
     int setUnits(int _UNIT);
     int setHistory(int _HIS);
-    char* getErrorMsgs(int errorMsg);
+    char* getErrorMsg(int errorMsg);
 
     //Legacy Method
     int parseWeather(char* DKEY, char* GKEY, float SEEK_LATITUDE, float SEEK_LONGITUDE, bool SET_UNITS, int CITY_ID, int API_EXCLUDES, int GET_HISTORY);
