@@ -55,6 +55,5 @@ const char *const errorMsgs[] PROGMEM =
   string_23
 };
 
-//char buffer[40];
 
 #endif // ERRMSGS_H_INCLUDED
