@@ -1,6 +1,6 @@
 /*
    OpenWeatherOnecall.h
-   Upgrade v3.0.1
+   Upgrade v3.0.3
    copyright 2020 - Jessica Hershey
    www.github.com/jHershey69
 
@@ -14,16 +14,15 @@
 #ifndef _OPEN_WEATHER_ONECALL_H_FILE
 #define _OPEN_WEATHER_ONECALL_H_FILE
 
+
+
 #include <HTTPClient.h>         // Required but installed in the ESP32
 #include <ArduinoJson.h>        // Version 6 Required
-
-// For Historical Data - Need UNIX EPOCH TIMESTAMP
-#include <NTPClient.h>
-#include <WiFiUdp.h>
-
-#include <Arduino.h>  // Basic Arduino Library
+#include <time.h>
+#include <Arduino.h>
 #include <string.h>
 #include "errMsgs.h"
+
 
 // Excludes
 #define EXCL_C 1  //Exclude Current
@@ -32,12 +31,23 @@
 #define EXCL_M 8  //Exclude Minutely
 #define EXCL_A 16 //Exclude Alerts
 
+//UNITS
 #define METRIC 1
 #define IMPERIAL 2
 #define KELVIN 3
 
+//DATE FORMATS
+#define MDY24H 1
+#define DMY24H 2
+#define MDY12H 3
+#define DMY12H 4
+
+
 //struct initializer
 #define NEW_API {"",0.0f,0.0f,true,0,0,0}
+
+
+
 
 class OpenWeatherOneCall
 {
@@ -50,15 +60,16 @@ public:
 
     void initAPI(void);
     int setOpenWeatherKey(char* owKey);
-
     int setLatLon(float _LAT, float _LON);
     int setLatLon(int _CITY_ID);
     int setLatLon(void);
-
     int setExcl(int _EXCL);
     int setUnits(int _UNIT);
     int setHistory(int _HIS);
+    int setDateTimeFormat(int _DTF);
     char* getErrorMsgs(int errorMsg);
+
+
 
     //Legacy Method
     int parseWeather(char* DKEY, char* GKEY, float SEEK_LATITUDE, float SEEK_LONGITUDE, bool SET_UNITS, int CITY_ID, int API_EXCLUDES, int GET_HISTORY);
@@ -82,6 +93,8 @@ public:
     struct nowData
     {
         long dayTime; // 1582151288
+        char readableDateTime[20];
+        char readableWeekdayName[4];
         float temperature; // 46.38
         float apparentTemperature; // 41.49
         float pressure; // 1026.4
@@ -96,7 +109,7 @@ public:
         float id; //800
         char* main; //"Clear"
         char* summary; // "Clear Skies" - uses "description"
-        char* icon; // "02d"
+        char icon[4]; // "02d"
     } *current;
 
 
@@ -104,8 +117,11 @@ public:
     {
         char weekDayName[4];
         long dayTime; // 1582088400
+        char readableDateTime[20];
         long sunriseTime; // 1582112760
+        char readableSunrise[5];
         long sunsetTime; // 1582151880
+        char readableSunset[5];
 
         float temperatureDay; // 51.24
         float temperatureLow; // 30.17
@@ -129,13 +145,14 @@ public:
         float id; //800
         char* main; // "rain" this is main
         char* summary; //description in json
-        char* icon; //"02d"
+        char icon[4]; //"02d"
 
         float cloudCover; // 0.53
         float pop;
         float uvIndex; // 3
 
     } *forecast = NULL; //[8]
+
 
 
     struct HOURLY
@@ -154,9 +171,11 @@ public:
         float id; // 801
         char* main; // "Clouds"
         char* summary; // "few clouds"
-        char* icon; // "02d"
+        char icon[4]; // "02d"
         float pop; // 0
     } *hour = NULL;
+
+
 
     struct MINUTELY
     {
@@ -170,7 +189,9 @@ public:
         char* senderName; //[30] = "No Alert"; // "NWS Philadelphia - Mount Holly (New Jersey, Delaware, Southeastern Pennsylvania)"
         char* event; //[50] = "No Event"; // "Gale Watch"
         long alertStart; // 1604271600
+        char startInfo[20];
         long alertEnd;
+        char endInfo[20];
         char *summary;
     } *alert = NULL;
 
@@ -179,8 +200,11 @@ public:
     {
         char weekDayName[4];
         long dayTime; // 1604242490
+        char readableDateTime[20];
         long sunrise; // 1604230151
+        char readableSunrise[5];
         long sunset; // 1604267932
+        char readableSunset[5];
         float temperature; // 285.9
         float apparentTemperature; // 283.42
         float pressure; // 1016
@@ -195,7 +219,7 @@ public:
         float id; // 804
         char* main; // "Clouds"
         char* summary; // "overcast clouds"
-        char* icon; // "04d"
+        char icon[4]; // "04d"
 
     } *history = NULL; //[25]
 
@@ -212,7 +236,6 @@ private:
     int createHistory(void);
     int createCurrent(int);
     int setExcludes(int EXCL);
-    void setWeekdayName(long dayTime, int x);
     int getLocationInfo();
 
     void freeCurrentMem(void);
@@ -220,17 +243,14 @@ private:
     void freeAlertMem(void);
     void freeHourMem(void);
     void freeMinuteMem(void);
-
-
-
+    void freeHistoryMem(void);
 
     //Variables
-
-
     // For eventual struct calls
     struct apiInfo
     {
         char OPEN_WEATHER_DKEY[100] = {NULL};
+        int OPEN_WEATHER_DATEFORMAT = 1;
         float OPEN_WEATHER_LATITUDE = NULL;
         float OPEN_WEATHER_LONGITUDE = NULL;
         int OPEN_WEATHER_UNITS = 2;
@@ -241,9 +261,6 @@ private:
 
     char units[10] = "IMPERIAL";
     char _ipapiURL[38];
-    int sumlen;
-
-
     int summary_len = 0;
 
     //BITFIELDS for exclude flags
