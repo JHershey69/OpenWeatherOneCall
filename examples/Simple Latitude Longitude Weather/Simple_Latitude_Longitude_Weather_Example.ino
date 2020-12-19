@@ -1,6 +1,6 @@
 /*
    Open Weather One Call Library
-   v3.0.0
+   v3.0.3
    Copyright 2020 - Jessica Hershey
    www.github.com/JHershey69
 
@@ -112,8 +112,9 @@ void setup() {
   OWOC.setOpenWeatherKey(ONECALLKEY);
 
   // Second set your position (can be CITY ID, IP ADDRESS, GPS, or Manual LATITUDE/LONGITUDE)
-  
-  // Here we use the Lat and Lon for Pensacola, Florida
+  // Choose one of the following options
+
+  // Here we use the Lat and Lon for Pensacola, Florida (Using the predefined values)
   //OWOC.setLatLon(myLATITUDE, myLONGITUDE);
   
   // If we are using CITY ID

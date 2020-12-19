@@ -1,5 +1,5 @@
 /*
-   OpenWeatherOneCall.cpp v3.0.1
+   OpenWeatherOneCall.cpp v3.0.3
    copyright 2020 - Jessica Hershey
    www.github.com/JHershey69
 
@@ -8,17 +8,11 @@
    Viva La Resistance
 
    REVISION HISTORY
-   1.2.0 - Added CITY ID option
-   1.3.0 - Added exclude values for API call
-   2.0.0 - Added HISTORICAL WEATHER, uses UNIX EPOCH TIMESTAMP see DOCs
-   2.0.1 - Fixed Historical Data bug for EPOCH calculation
-   2.0.2 - Added units (Kelvin/Metric/Imperial) to Historical
-   2.1.0 - Added TIMEZONE and OFFSET, removed unused vars left over from Dark Sky
-   3.0.0 - Completely reworked the library - If something is broken revert to previous version and let me know
-   3.0.1 - Fixed a couple things so I could release the same thing with a new number
+   See User Manual
 */
 
 #include "OpenWeatherOneCall.h"
+void dateTimeConversion(long _epoch, char *_buffer, int _format);
 
 OpenWeatherOneCall::OpenWeatherOneCall()
 {
@@ -51,7 +45,6 @@ int OpenWeatherOneCall::parseWeather(void)
 
     if((USER_PARAM.OPEN_WEATHER_LATITUDE) || (USER_PARAM.OPEN_WEATHER_LONGITUDE))
         {
-
             OpenWeatherOneCall::getLocationInfo();
 
             if(USER_PARAM.OPEN_WEATHER_HISTORY)  //If Historical Weather is requested, no CURRENT weather returned
@@ -66,20 +59,20 @@ int OpenWeatherOneCall::parseWeather(void)
                 }
             else
                 {
+                    OpenWeatherOneCall::freeHistoryMem();
                     int error_code = OpenWeatherOneCall::createCurrent(SIZE_CAPACITY);
                 }
             if(error_code)
                 {
                     return error_code;
                 }
-            //endif lat/lon
         }
     else
         {
-            return 26; //Must set Latitude and Longitude somehow
+            return 24; //Must set Latitude and Longitude somehow
         }
 
-    return (EXIT_SUCCESS);
+    return 0;
 }
 
 int OpenWeatherOneCall::parseWeather(char* DKEY, char* GKEY, float SEEK_LATITUDE, float SEEK_LONGITUDE, bool SET_UNITS, int CITY_ID, int API_EXCLUDES, int GET_HISTORY)
@@ -404,21 +397,11 @@ int OpenWeatherOneCall::createHistory()
             return 16;
         }
 
-    WiFiUDP ntpUDP;
-    NTPClient timeClient(ntpUDP);
-    timeClient.begin();
-    timeClient.update();
-
-    long EPOCH_DATE = (timeClient.getEpochTime() - (86400 * USER_PARAM.OPEN_WEATHER_HISTORY));
-    timeClient.end();
-
-    sprintf(historyURL,"%s?lat=%.6f&lon=%.6f%s%ld&units=%s%s%s",TS_URL1,USER_PARAM.OPEN_WEATHER_LATITUDE,USER_PARAM.OPEN_WEATHER_LONGITUDE,TS_URL2,EPOCH_DATE,units,DS_URL3,USER_PARAM.OPEN_WEATHER_DKEY);
-
-
-
+    char tempURL[200];
+    sprintf(tempURL,"https://api.openweathermap.org/data/2.5/onecall?lat=%.6f&lon=%.6f&exclude=minutely,hourly,daily,alerts&units=IMPERIAL&appid=%s",USER_PARAM.OPEN_WEATHER_LATITUDE,USER_PARAM.OPEN_WEATHER_LONGITUDE,USER_PARAM.OPEN_WEATHER_DKEY);
 
     HTTPClient http;
-    http.begin(historyURL);
+    http.begin(tempURL);
     int httpCode = http.GET();
 
     if (httpCode > 399)
@@ -436,7 +419,37 @@ int OpenWeatherOneCall::createHistory()
         }
 
 
-    DynamicJsonDocument doc(8192);
+    DynamicJsonDocument toc(768);
+    deserializeJson(toc, http.getString());
+
+    JsonObject toc_current = toc["current"];
+    long tempEPOCH = toc_current["dt"]; // 1608323864
+
+    tempEPOCH = tempEPOCH - (86400 * USER_PARAM.OPEN_WEATHER_HISTORY);
+
+    http.end();
+
+    sprintf(historyURL,"%s?lat=%.6f&lon=%.6f%s%ld&units=%s%s%s",TS_URL1,USER_PARAM.OPEN_WEATHER_LATITUDE,USER_PARAM.OPEN_WEATHER_LONGITUDE,TS_URL2,tempEPOCH,units,DS_URL3,USER_PARAM.OPEN_WEATHER_DKEY);
+
+    http.begin(historyURL);
+    httpCode = http.GET();
+
+    if (httpCode > 399)
+        {
+            if(httpCode == 401)
+                {
+                    http.end();
+                    return 22;
+                }
+            else
+                {
+                    http.end();
+                    return 21;
+                }
+        }
+
+
+    DynamicJsonDocument doc(9000);
 
     deserializeJson(doc, http.getString());
 
@@ -450,8 +463,32 @@ int OpenWeatherOneCall::createHistory()
 
     JsonObject current = doc["current"];
     history[0].dayTime = current["dt"]; // 1607292481
+
+    if(current["dt"])
+        {
+            long tempTime = current["dt"];
+            tempTime += location.timezoneOffset;
+            dateTimeConversion(tempTime,history[0].readableDateTime,USER_PARAM.OPEN_WEATHER_DATEFORMAT);
+        }
+
     history[0].sunrise = current["sunrise"]; // 1607256309
+
+    if(current["sunrise"])
+        {
+            long tempTime = current["sunrise"];
+            tempTime += location.timezoneOffset;
+            dateTimeConversion(tempTime,history[0].readableSunrise,USER_PARAM.OPEN_WEATHER_DATEFORMAT+4);
+        }
+
     history[0].sunset = current["sunset"]; // 1607290280
+
+    if(current["sunset"])
+        {
+            long tempTime = current["sunset"];
+            tempTime += location.timezoneOffset;
+            dateTimeConversion(tempTime,history[0].readableSunset,USER_PARAM.OPEN_WEATHER_DATEFORMAT+4);
+        }
+
     history[0].temperature = current["temp"]; // 35.82
     history[0].apparentTemperature = current["feels_like"]; // 21.7
     history[0].pressure = current["pressure"]; // 1010
@@ -466,14 +503,16 @@ int OpenWeatherOneCall::createHistory()
 
     JsonObject current_weather_0 = current["weather"][0];
     history[0].id = current_weather_0["id"]; // 800
+
     history[0].main = (char *)realloc(history[0].main,sizeof(char) * strlen(current_weather_0["main"])+1);
     strncpy(history[0].main,current_weather_0["main"],strlen(current_weather_0["main"])+1);
+
     history[0].summary = (char *)realloc(history[0].summary,sizeof(char) * strlen(current_weather_0["description"])+1);
     strncpy(history[0].summary,current_weather_0["description"],strlen(current_weather_0["description"])+1);
-    history[0].icon = (char *)realloc(history[0].icon,sizeof(char) * strlen(current_weather_0["icon"])+1);
+
     strncpy(history[0].icon,current_weather_0["icon"],strlen(current_weather_0["icon"])+1);
 
-    OpenWeatherOneCall::setWeekdayName(history[0].dayTime, 0);
+    dateTimeConversion(history[0].dayTime,history[0].weekDayName,9);
 
     JsonArray hourly = doc["hourly"];
 
@@ -481,8 +520,32 @@ int OpenWeatherOneCall::createHistory()
         {
             JsonObject hourly_0 = hourly[x-1];
             history[x].dayTime = hourly_0["dt"]; // 1607212800
+
+            if(hourly_0["dt"])
+                {
+                    long tempTime = hourly_0["dt"];
+                    tempTime += location.timezoneOffset;
+                    dateTimeConversion(tempTime,history[x].readableDateTime,USER_PARAM.OPEN_WEATHER_DATEFORMAT);
+                }
+
             history[x].sunrise = current["sunrise"] | 1607256309; // 1607256309
+
+            if(current["sunrise"])
+                {
+                    long tempTime = current["sunrise"];
+                    tempTime += location.timezoneOffset;
+                    dateTimeConversion(tempTime,history[x].readableSunrise,USER_PARAM.OPEN_WEATHER_DATEFORMAT+4);
+                }
+
             history[x].sunset = current["sunset"] | 1607290280; // 1607290280
+
+            if(current["sunset"])
+                {
+                    long tempTime = current["sunset"];
+                    tempTime += location.timezoneOffset;
+                    dateTimeConversion(tempTime,history[x].readableSunset,USER_PARAM.OPEN_WEATHER_DATEFORMAT+4);
+                }
+
             history[x].temperature = hourly_0["temp"]; // 40.21
             history[x].apparentTemperature = hourly_0["feels_like"]; // 29.39
             history[x].pressure = hourly_0["pressure"]; // 1007
@@ -495,30 +558,25 @@ int OpenWeatherOneCall::createHistory()
 
             JsonObject hourly_0_weather_0 = hourly_0["weather"][0];
             history[x].id = hourly_0_weather_0["id"]; // 800
+
             history[x].main = (char *)realloc(history[x].main,sizeof(char) * strlen(hourly_0_weather_0["main"])+1);
             strncpy(history[x].main,hourly_0_weather_0["main"],strlen(hourly_0_weather_0["main"])+1);
+
             history[x].summary = (char *)realloc(history[x].summary,sizeof(char) * strlen(hourly_0_weather_0["description"])+1);
             strncpy(history[x].summary,hourly_0_weather_0["description"],strlen(hourly_0_weather_0["description"])+1);
-            history[x].icon = (char *)realloc(history[x].icon,sizeof(char) * strlen(hourly_0_weather_0["icon"])+1);
+
             strncpy(history[x].icon,hourly_0_weather_0["icon"],strlen(hourly_0_weather_0["icon"])+1);
 
-            OpenWeatherOneCall::setWeekdayName(history[0].dayTime, x);
+            dateTimeConversion(history[0].dayTime,history[x].weekDayName,9);
         }
 
     http.end();
     return 0;
 }
 
-void OpenWeatherOneCall::setWeekdayName(long dayTime, int x)
-{
-    long DoW = dayTime / 86400L;
-    int day_of_week = (DoW + 4) % 7;
-
-    strncpy(history[x].weekDayName,short_names[day_of_week],4);
-}
-
 int OpenWeatherOneCall::createCurrent(int sizeCap)
 {
+
     char getURL[200] = {0};
 
     sprintf(getURL,"%s?lat=%.6f&lon=%.6f%s%s%s%s",DS_URL1,USER_PARAM.OPEN_WEATHER_LATITUDE,USER_PARAM.OPEN_WEATHER_LONGITUDE,DS_URL2,units,DS_URL3,USER_PARAM.OPEN_WEATHER_DKEY);
@@ -567,6 +625,15 @@ int OpenWeatherOneCall::createCurrent(int sizeCap)
 
             JsonObject currently = doc["current"];
             current->dayTime = currently["dt"]; // 1586781931
+
+            if(currently["dt"])
+                {
+                    long tempTime = currently["dt"];
+                    tempTime += location.timezoneOffset;
+                    dateTimeConversion(tempTime,current->readableDateTime,USER_PARAM.OPEN_WEATHER_DATEFORMAT);
+                    dateTimeConversion(tempTime,current->readableWeekdayName,9);
+                }
+
             current->temperature = currently["temp"]; // 287.59
             current->apparentTemperature = currently["feels_like"]; // 281.42
             current->pressure = currently["pressure"]; // 1011
@@ -593,15 +660,8 @@ int OpenWeatherOneCall::createCurrent(int sizeCap)
                 }
             strncpy(current->summary,currently["weather"][0]["description"],strlen(currently["weather"][0]["description"])+1);
 
-            current->icon = (char *)realloc(current->icon,sizeof(char) * strlen(currently["weather"][0]["icon"])+1);
-            if(current->icon == NULL)
-                {
-                    return 23;
-                }
             strncpy(current->icon,currently["weather"][0]["icon"],strlen(currently["weather"][0]["icon"])+1);
         }
-
-
 
     if(exclude.daily)
         {
@@ -622,8 +682,31 @@ int OpenWeatherOneCall::createCurrent(int sizeCap)
             for (int x = 0; x < 8; x++)
                 {
                     forecast[x].dayTime = daily[x]["dt"]; // 1586793600
+
+                    if(daily[x]["dt"])
+                        {
+                            long tempTime = daily[x]["dt"];
+                            tempTime += location.timezoneOffset;
+                            dateTimeConversion(tempTime,forecast[x].readableDateTime,USER_PARAM.OPEN_WEATHER_DATEFORMAT);
+                        }
+
                     forecast[x].sunriseTime = daily[x]["sunrise"]; // 1586773262
+
+                    if(daily[x]["sunrise"])
+                        {
+                            long tempTime = daily[x]["sunrise"];
+                            tempTime += location.timezoneOffset;
+                            dateTimeConversion(tempTime,forecast[x].readableSunrise,USER_PARAM.OPEN_WEATHER_DATEFORMAT+4);
+                        }
+
                     forecast[x].sunsetTime = daily[x]["sunset"]; // 1586820773
+
+                    if(daily[x]["sunset"])
+                        {
+                            long tempTime = daily[x]["sunset"];
+                            tempTime += location.timezoneOffset;
+                            dateTimeConversion(tempTime,forecast[x].readableSunset,USER_PARAM.OPEN_WEATHER_DATEFORMAT+4);
+                        }
 
                     forecast[x].temperatureDay = daily[x]["temp"]["day"]; // 288.74
                     forecast[x].temperatureLow = daily[x]["temp"]["min"]; // 286.56
@@ -665,29 +748,16 @@ int OpenWeatherOneCall::createCurrent(int sizeCap)
                             strncpy(forecast[x].summary,daily[x]["weather"][0]["description"],strlen(daily[x]["weather"][0]["description"])+1);
                         }
 
-                    if(daily[x]["weather"][0]["icon"])
-                        {
-                            forecast[x].icon = (char *)realloc(forecast[x].icon,sizeof(char) * strlen(daily[x]["weather"][0]["icon"])+1);
-                            if(forecast[x].icon == NULL)
-                                {
-                                    return 23;
-                                }
-                            strncpy(forecast[x].icon,daily[x]["weather"][0]["icon"],strlen(daily[x]["weather"][0]["icon"])+1);
-
-                        }
+                    strncpy(forecast[x].icon,daily[x]["weather"][0]["icon"],strlen(daily[x]["weather"][0]["icon"])+1);
 
                     forecast[x].cloudCover = daily[x]["clouds"]; // 95
                     forecast[x].pop = daily[x]["pop"]; // 95
                     forecast[x].uvIndex = daily[x]["uvi"]; // 6.31
 
-                    long DoW = forecast[x].dayTime / 86400L;
-                    int day_of_week = (DoW + 4) % 7;
-
-                    strncpy(forecast[x].weekDayName,short_names[day_of_week],4);
+                    dateTimeConversion(forecast[x].dayTime,forecast[x].weekDayName,9);
                 }
 
         }
-
 
     if(exclude.alerts)
         {
@@ -695,50 +765,65 @@ int OpenWeatherOneCall::createCurrent(int sizeCap)
         }
     else
         {
-            if(!alert)
+            if(doc["alerts"][0])
                 {
-                    alert = (struct ALERTS *)calloc(1,sizeof(struct ALERTS));
-                    if(alert == NULL)
+                    if(!alert);
+                    {
+                        alert = (struct ALERTS *)calloc(1,sizeof(struct ALERTS));
+                        if(alert == NULL)
+                            {
+                                return 23;
+                            }
+                    }
+
+                    JsonObject ALERTS_0 = doc["alerts"][0];
+
+                    if(ALERTS_0["sender_name"])
                         {
-                            return 23;
+                            alert->senderName = (char *)realloc(alert->senderName,sizeof(char) * strlen(ALERTS_0["sender_name"])+1);
+                            if(alert->senderName == NULL)
+                                {
+                                    return 23;
+                                }
+                            strncpy(alert->senderName,ALERTS_0["sender_name"],strlen(ALERTS_0["sender_name"])+1);
                         }
-                }
 
-
-            JsonObject ALERTS_0 = doc["alerts"][0];
-
-            if(ALERTS_0["sender_name"])
-                {
-                    alert->senderName = (char *)realloc(alert->senderName,sizeof(char) * strlen(ALERTS_0["sender_name"])+1);
-                    if(alert->senderName == NULL)
+                    if(ALERTS_0["event"])
                         {
-                            return 23;
-                        }
-                    strncpy(alert->senderName,ALERTS_0["sender_name"],strlen(ALERTS_0["sender_name"])+1);
-                }
+                            alert->event = (char *)realloc(alert->event,sizeof(char) * strlen(ALERTS_0["event"])+1);
+                            if(alert->event == NULL)
+                                {
+                                    return 23;
+                                }
+                            strncpy(alert->event,ALERTS_0["event"],strlen(ALERTS_0["event"])+1);
 
-            if(ALERTS_0["event"])
-                {
-                    alert->event = (char *)realloc(alert->event,sizeof(char) * strlen(ALERTS_0["event"])+1);
-                    if(alert->event == NULL)
+                        }
+
+                    if(ALERTS_0["start"])
                         {
-                            return 23;
+                            long tempTime = ALERTS_0["start"];
+                            alert->alertStart = tempTime;
+                            tempTime += location.timezoneOffset;
+                            dateTimeConversion(tempTime,alert->startInfo,USER_PARAM.OPEN_WEATHER_DATEFORMAT);
                         }
-                    strncpy(alert->event,ALERTS_0["event"],strlen(ALERTS_0["event"])+1);
 
-                }
-
-            alert->alertStart = ALERTS_0["start"];
-            alert->alertEnd = ALERTS_0["end"];
-
-            if(ALERTS_0["description"])
-                {
-                    alert->summary = (char *)realloc(alert->summary,sizeof(char) * strlen(ALERTS_0["description"])+1);
-                    if(alert->summary == NULL)
+                    if(ALERTS_0["end"])
                         {
-                            return 23;
+                            long tempTime = ALERTS_0["end"];
+                            alert->alertEnd = tempTime;
+                            tempTime += location.timezoneOffset;
+                            dateTimeConversion(tempTime,alert->endInfo,USER_PARAM.OPEN_WEATHER_DATEFORMAT);
                         }
-                    strncpy(alert->summary,ALERTS_0["description"],strlen(ALERTS_0["description"])+1);
+
+                    if(ALERTS_0["description"])
+                        {
+                            alert->summary = (char *)realloc(alert->summary,sizeof(char) * strlen(ALERTS_0["description"])+1);
+                            if(alert->summary == NULL)
+                                {
+                                    return 23;
+                                }
+                            strncpy(alert->summary,ALERTS_0["description"],strlen(ALERTS_0["description"])+1);
+                        }
                 }
         }
 
@@ -749,65 +834,61 @@ int OpenWeatherOneCall::createCurrent(int sizeCap)
         }
     else
         {
-            if(!hour)
+            if(doc["hourly"])
                 {
-                    hour = (struct HOURLY *)calloc(48, sizeof(struct HOURLY));
-                    if(hour == NULL)
+                    if(!hour)
                         {
-                            return 23;
-                        }
-                }
-
-            JsonArray hourly = doc["hourly"];
-            for(int h = 0; h < 48; h++)
-                {
-
-                    JsonObject hourly_0 = hourly[h];
-                    hour[h].dayTime = hourly_0["dt"]; // 1604336400
-                    hour[h].temperature = hourly_0["temp"]; // 46.58
-                    hour[h].apparentTemperature = hourly_0["feels_like"]; // 28.54
-                    hour[h].pressure = hourly_0["pressure"]; // 1015
-                    hour[h].humidity = hourly_0["humidity"]; // 31
-                    hour[h].dewPoint = hourly_0["dew_point"]; // 19.2
-                    hour[h].cloudCover = hourly_0["clouds"]; // 20
-                    hour[h].visibility = hourly_0["visibility"]; // 10000
-                    hour[h].windSpeed = hourly_0["wind_speed"]; // 22.77
-                    hour[h].windBearing = hourly_0["wind_deg"]; // 300
-
-                    JsonObject hourly_0_weather_0 = hourly_0["weather"][0];
-                    hour[h].id = hourly_0_weather_0["id"]; // 801
-
-                    if(hourly_0_weather_0["main"])
-                        {
-                            hour[h].main = (char *)realloc(hour[h].main,sizeof(char) * strlen(hourly_0_weather_0["main"])+1);
-                            if(hour[h].main == NULL)
+                            hour = (struct HOURLY *)calloc(48, sizeof(struct HOURLY));
+                            if(hour == NULL)
                                 {
                                     return 23;
                                 }
-                            strncpy(hour[h].main,hourly_0_weather_0["main"],strlen(hourly_0_weather_0["main"])+1);
                         }
 
-                    if(hourly_0_weather_0["description"])
+                    JsonArray hourly = doc["hourly"];
+                    for(int h = 0; h < 48; h++)
                         {
-                            hour[h].summary = (char *)realloc(hour[h].summary,sizeof(char) * strlen(hourly_0_weather_0["description"])+1);
-                            if(hour[h].summary == NULL)
-                                {
-                                    return 23;
-                                }
-                            strncpy(hour[h].summary,hourly_0_weather_0["description"],strlen(hourly_0_weather_0["description"])+1);
-                        }
 
-                    if(hourly_0_weather_0["icon"])
-                        {
-                            hour[h].icon = (char *)realloc(hour[h].icon,sizeof(char) * strlen(hourly_0_weather_0["icon"])+1);
-                            if(hour[h].icon == NULL)
+                            JsonObject hourly_0 = hourly[h];
+                            hour[h].dayTime = hourly_0["dt"]; // 1604336400
+                            hour[h].temperature = hourly_0["temp"]; // 46.58
+                            hour[h].apparentTemperature = hourly_0["feels_like"]; // 28.54
+                            hour[h].pressure = hourly_0["pressure"]; // 1015
+                            hour[h].humidity = hourly_0["humidity"]; // 31
+                            hour[h].dewPoint = hourly_0["dew_point"]; // 19.2
+                            hour[h].cloudCover = hourly_0["clouds"]; // 20
+                            hour[h].visibility = hourly_0["visibility"]; // 10000
+                            hour[h].windSpeed = hourly_0["wind_speed"]; // 22.77
+                            hour[h].windBearing = hourly_0["wind_deg"]; // 300
+
+                            JsonObject hourly_0_weather_0 = hourly_0["weather"][0];
+                            hour[h].id = hourly_0_weather_0["id"]; // 801
+
+                            if(hourly_0_weather_0["main"])
                                 {
-                                    return 23;
+                                    hour[h].main = (char *)realloc(hour[h].main,sizeof(char) * strlen(hourly_0_weather_0["main"])+1);
+                                    if(hour[h].main == NULL)
+                                        {
+                                            return 23;
+                                        }
+                                    strncpy(hour[h].main,hourly_0_weather_0["main"],strlen(hourly_0_weather_0["main"])+1);
                                 }
+
+                            if(hourly_0_weather_0["description"])
+                                {
+                                    hour[h].summary = (char *)realloc(hour[h].summary,sizeof(char) * strlen(hourly_0_weather_0["description"])+1);
+                                    if(hour[h].summary == NULL)
+                                        {
+                                            return 23;
+                                        }
+                                    strncpy(hour[h].summary,hourly_0_weather_0["description"],strlen(hourly_0_weather_0["description"])+1);
+                                }
+
+
                             strncpy(hour[h].icon,hourly_0_weather_0["icon"],strlen(hourly_0_weather_0["icon"])+1);
-                        }
 
-                    hour[h].pop = hourly_0["pop"]; // 0
+                            hour[h].pop = hourly_0["pop"]; // 0
+                        }
                 }
         }
 
@@ -818,22 +899,25 @@ int OpenWeatherOneCall::createCurrent(int sizeCap)
         }
     else
         {
-            if(!minute)
+            if(doc["minutely"])
                 {
-                    minute = (struct MINUTELY *)calloc(61, sizeof(struct MINUTELY));
-                    if(minute == NULL)
+                    if(!minute)
                         {
-                            return 23;
+                            minute = (struct MINUTELY *)calloc(61, sizeof(struct MINUTELY));
+                            if(minute == NULL)
+                                {
+                                    return 23;
+                                }
                         }
-                }
 
 
-            JsonArray minutely = doc["minutely"];
+                    JsonArray minutely = doc["minutely"];
 
-            for(int x = 0; x<61; x++)
-                {
-                    minute[x].dayTime = minutely[x]["dt"];
-                    minute[x].precipitation = minutely[x]["precipitation"]; // 0
+                    for(int x = 0; x<61; x++)
+                        {
+                            minute[x].dayTime = minutely[x]["dt"];
+                            minute[x].precipitation = minutely[x]["precipitation"]; // 0
+                        }
                 }
         }
 
@@ -912,7 +996,7 @@ int OpenWeatherOneCall::setOpenWeatherKey(char* owKey)
 
     strncpy(USER_PARAM.OPEN_WEATHER_DKEY,owKey,100);
 
-    return(EXIT_SUCCESS);
+    return 0;
 }
 
 int OpenWeatherOneCall::setExcl(int _EXCL)
@@ -924,6 +1008,8 @@ int OpenWeatherOneCall::setExcl(int _EXCL)
         }
     else
         USER_PARAM.OPEN_WEATHER_EXCLUDES = _EXCL;
+
+    return 0;
 }
 
 int OpenWeatherOneCall::setUnits(int _UNIT)
@@ -948,13 +1034,27 @@ int OpenWeatherOneCall::setUnits(int _UNIT)
         default :
             strcpy(units,"IMPERIAL");
         }
+
+    return 0;
 }
 
 int OpenWeatherOneCall::setHistory(int _HIS)
 {
     if(_HIS > 5)
-        return 16;
+        {
+            return 16;
+        }
     USER_PARAM.OPEN_WEATHER_HISTORY = _HIS;
+
+    return 0;
+}
+
+int OpenWeatherOneCall::setDateTimeFormat(int _DTF)
+{
+    if(_DTF > 4)
+        return 16;
+    USER_PARAM.OPEN_WEATHER_DATEFORMAT = _DTF;
+    return 0;
 }
 
 // free routines
@@ -963,8 +1063,6 @@ void OpenWeatherOneCall::freeCurrentMem(void)
 {
     if(current)
         {
-            free(current->icon);
-            current->icon = NULL;
             free(current->summary);
             current->summary = NULL;
             free(current->main);
@@ -981,15 +1079,30 @@ void OpenWeatherOneCall::freeForecastMem(void)
         {
             for( int x = 8; x > 0; x--)
                 {
-                    free(forecast[x-1].icon);
                     free(forecast[x-1].summary);
                     free(forecast[x-1].main);
                 }
             free(forecast);
-            forecast[0].icon = NULL;
             forecast[0].summary = NULL;
             forecast[0].main = NULL;
             forecast = NULL;
+        }
+
+}
+
+void OpenWeatherOneCall::freeHistoryMem(void)
+{
+    if(history)
+        {
+            for( int x = 24; x > 0; x--)
+                {
+                    free(history[x-1].summary);
+                    free(history[x-1].main);
+                }
+            free(history);
+            history[0].summary = NULL;
+            history[0].main = NULL;
+            history = NULL;
         }
 
 }
@@ -1015,12 +1128,10 @@ void OpenWeatherOneCall::freeHourMem(void)
         {
             for( int x = 48; x > 0; x--)
                 {
-                    free(hour[x-1].icon);
                     free(hour[x-1].summary);
                     free(hour[x-1].main);
                 }
             free(hour);
-            hour[0].icon = NULL;
             hour[0].summary = NULL;
             hour[0].main = NULL;
             hour = NULL;
