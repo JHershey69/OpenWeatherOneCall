@@ -1,4 +1,4 @@
-# OpenWeatherOneCall v3.0.2   ![IMAGE OF LIGHTNING](https://github.com/JHershey69/OpenWeatherOneCall/blob/master/images/lightning.jpg)
+# OpenWeatherOneCall v3.0.3   ![IMAGE OF LIGHTNING](https://github.com/JHershey69/OpenWeatherOneCall/blob/master/images/lightning.jpg)
 ## This is for ESP32 only 
 
 **OpenWeatherOneCall** library to gather weather information from OpenWeatherMap
@@ -10,6 +10,7 @@ The easiest method for gathering information from Open Weather Map using the **O
 
 For **Dark Sky** users migrating to a new system please refer to the Variables Document for changes.
 
-## Please make sure you read the User Manual as v3.0.0 has many changes and new information
+## Please make sure you read the User Manual as v3.0.3 has many changes and new information
 v3.0.0 has a **Legacy Mode** to maintain ease of use for previous versions
 <br>v3.0.2 fixed a couple of things so I could release the same thng with a new number
+<br>v3.0.3 added HUMAN READABLE date and time formats, see manual and variable sheet
