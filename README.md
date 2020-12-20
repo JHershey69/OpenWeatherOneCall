@@ -13,4 +13,7 @@ For **Dark Sky** users migrating to a new system please refer to the Variables D
 ## Please make sure you read the User Manual as v3.0.3 has many changes and new information
 v3.0.0 has a **Legacy Mode** to maintain ease of use for previous versions
 <br>v3.0.2 fixed a couple of things so I could release the same thng with a new number
-<br>v3.0.3 added HUMAN READABLE date and time formats, see manual and variable sheet
+<br>v3.0.3 
+<br>--added HUMAN READABLE date and time formats, see manual and variable sheet.
+<br>--Date formats now selectable MM/DD/YY, DD/MM/YY. Time available in 24 or 12 Hour format.
+<br>--Remove dependancies on all external libraries. Only ArduinoJson v6+ is required now.
