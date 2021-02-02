@@ -1,6 +1,6 @@
 /*
    Open Weather One Call Library
-   v3.0.3
+   v3.0.4
    Copyright 2020 - Jessica Hershey
    www.github.com/JHershey69
 
