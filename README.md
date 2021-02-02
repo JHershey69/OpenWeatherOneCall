@@ -10,7 +10,7 @@ The easiest method for gathering information from Open Weather Map using the **O
 
 For **Dark Sky** users migrating to a new system please refer to the Variables Document for changes.
 
-## Please make sure you read the User Manual as v3.0.3 has many changes and new information
+## Please make sure you read the User Manual as v3.0.3 had many changes and new information
 v3.0.0 has a **Legacy Mode** to maintain ease of use for previous versions
 <br>v3.0.2 fixed a couple of things so I could release the same thng with a new number
 <br>v3.0.3 
