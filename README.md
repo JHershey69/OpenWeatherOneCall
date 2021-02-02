@@ -1,4 +1,4 @@
-# OpenWeatherOneCall v3.0.3   ![IMAGE OF LIGHTNING](https://github.com/JHershey69/OpenWeatherOneCall/blob/master/images/lightning.jpg)
+# OpenWeatherOneCall v3.0.4   ![IMAGE OF LIGHTNING](https://github.com/JHershey69/OpenWeatherOneCall/blob/master/images/lightning.jpg)
 ## This is for ESP32 only 
 
 **OpenWeatherOneCall** library to gather weather information from OpenWeatherMap
@@ -17,3 +17,6 @@ v3.0.0 has a **Legacy Mode** to maintain ease of use for previous versions
 <br>--added HUMAN READABLE date and time formats, see manual and variable sheet.
 <br>--Date formats now selectable MM/DD/YY, DD/MM/YY. Time available in 24 or 12 Hour format.
 <br>--Remove dependancies on all external libraries. Only ArduinoJson v6+ is required now.
+<br>v3.0.4 
+<br>--added HUMAN READABLE sunrise and sunset for CURRENT, see manual and variable sheet.
+<br>--added snowVolume and rainVolume, see variables sheet, returned in mm or in based on units
