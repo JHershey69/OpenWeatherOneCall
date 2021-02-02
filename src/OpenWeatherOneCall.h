@@ -1,6 +1,6 @@
 /*
    OpenWeatherOnecall.h
-   Upgrade v3.0.3
+   Upgrade v3.0.4
    copyright 2020 - Jessica Hershey
    www.github.com/jHershey69
 
@@ -22,6 +22,7 @@
 #include <Arduino.h>
 #include <string.h>
 #include "errMsgs.h"
+#include "langCode.h"
 
 
 // Excludes
@@ -68,6 +69,9 @@ public:
     int setHistory(int _HIS);
     int setDateTimeFormat(int _DTF);
     char* getErrorMsgs(int errorMsg);
+    char* nextLanguage(char * shrtPtr, char* lngPtr, int _langNum);
+    char* setLanguage(char * shortPtr);
+    char* setLanguage(int _langC);
 
 
 
@@ -95,6 +99,10 @@ public:
         long dayTime; // 1582151288
         char readableDateTime[20];
         char readableWeekdayName[4];
+        long sunriseTime; // 1582112760
+        char readableSunrise[5];
+        long sunsetTime; // 1582151880
+        char readableSunset[5];
         float temperature; // 46.38
         float apparentTemperature; // 41.49
         float pressure; // 1026.4
@@ -106,6 +114,8 @@ public:
         float windSpeed; // 10.22
         float windBearing; // 348
         float windGust;
+        float snowVolume;
+        float rainVolume;
         float id; //800
         char* main; //"Clear"
         char* summary; // "Clear Skies" - uses "description"
@@ -140,6 +150,7 @@ public:
         float humidity; // 0.54
         float dewPoint; // 26.79
         float windSpeed; // 6.49
+        float windGust;
         float windBearing; // 324
 
         float id; //800
@@ -149,6 +160,8 @@ public:
 
         float cloudCover; // 0.53
         float pop;
+        float rainVolume;
+        float snowVolume;
         float uvIndex; // 3
 
     } *forecast = NULL; //[8]
@@ -167,6 +180,8 @@ public:
         float visibility; // 10000
         float windSpeed; // 22.77
         float windBearing; // 300
+        float snowVolume;
+        float rainVolume;
 
         float id; // 801
         char* main; // "Clouds"
@@ -216,6 +231,8 @@ public:
         float windSpeed; // 3.1
         float windBearing; // 160
         float windGust;
+        float rainVolume;
+        float snowVolume;
         float id; // 804
         char* main; // "Clouds"
         char* summary; // "overcast clouds"
@@ -251,6 +268,7 @@ private:
     {
         char OPEN_WEATHER_DKEY[100] = {NULL};
         int OPEN_WEATHER_DATEFORMAT = 1;
+        char OPEN_WEATHER_LANGUAGE[6] = "en";
         float OPEN_WEATHER_LATITUDE = NULL;
         float OPEN_WEATHER_LONGITUDE = NULL;
         int OPEN_WEATHER_UNITS = 2;

@@ -1,6 +1,6 @@
 /*
    Open Weather One Call Library
-   v3.0.3
+   v3.0.4
    Copyright 2020 - Jessica Hershey
    www.github.com/JHershey69
 
@@ -128,6 +128,9 @@ void setup() {
 
   // Set History if you want historical weather other wise NULL
   OWOC.setHistory(myHISTORY);
+   
+    // Set UNITS of MEASURE otherwise default is IMPERIAL
+  OWOC.setUnits(myUNITS);
 
    //Now call the weather. Please notice no arguments are required in this call
   OWOC.parseWeather();
