@@ -128,6 +128,9 @@ void setup() {
 
   // Set History if you want historical weather other wise NULL
   OWOC.setHistory(myHISTORY);
+   
+    // Set UNITS of MEASURE otherwise default is IMPERIAL
+  OWOC.setUnits(myUNITS);
 
    //Now call the weather. Please notice no arguments are required in this call
   OWOC.parseWeather();
