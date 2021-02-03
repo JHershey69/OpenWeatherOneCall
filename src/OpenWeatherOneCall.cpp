@@ -1,5 +1,5 @@
 /*
-   OpenWeatherOneCall.cpp v3.0.4
+   OpenWeatherOneCall.cpp v3.0.5
    copyright 2020 - Jessica Hershey
    www.github.com/JHershey69
 
@@ -1331,48 +1331,6 @@ char* OpenWeatherOneCall::getErrorMsgs(int _errMsg)
         return "Error Number Out of RANGE";
     strcpy_P(buffer, (char*)pgm_read_dword(&(errorMsgs[_errMsg - 1])));
     return buffer;
-}
-
-char* OpenWeatherOneCall::nextLanguage(char * shortPtr, char* longPtr, int _langNum)
-{
-    if(_langNum < SIZEOF(langCodes))
-        {
-
-            strcpy_P(longPtr, (char*)pgm_read_dword(&(langCodes[(_langNum*2) - 1])));
-            if(shortPtr)
-                {
-                    strcpy_P(shortPtr, (char*)pgm_read_dword(&(langCodes[_langNum*2])));
-                }
-            return shortPtr;
-        }
-    else
-        return (NULL);
-}
-
-char* OpenWeatherOneCall::setLanguage(char * _shortPtr)
-{
-    if(_shortPtr == NULL)
-        {
-            return NULL;
-        }
-    else
-        {
-            strncpy(USER_PARAM.OPEN_WEATHER_LANGUAGE,_shortPtr,6);
-            return (_shortPtr);
-        }
-}
-
-char* OpenWeatherOneCall::setLanguage(int _langC)
-{
-    if(_langC < SIZEOF(langCodes))
-        {
-            strcpy_P(USER_PARAM.OPEN_WEATHER_LANGUAGE, (char*)pgm_read_dword(&(langCodes[(_langC*2)])));
-            return (USER_PARAM.OPEN_WEATHER_LANGUAGE);
-        }
-    else
-        strcpy_P(USER_PARAM.OPEN_WEATHER_LANGUAGE,"en");
-
-    return (NULL);
 }
 
 
