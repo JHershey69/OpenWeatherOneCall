@@ -22,7 +22,7 @@
 #include <Arduino.h>
 #include <string.h>
 #include "errMsgs.h"
-#include "langCode.h"
+// #include "langCode.h"
 
 
 // Excludes
