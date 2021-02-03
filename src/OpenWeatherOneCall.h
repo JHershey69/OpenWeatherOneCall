@@ -1,6 +1,6 @@
 /*
    OpenWeatherOnecall.h
-   Upgrade v3.0.4
+   Upgrade v3.0.5
    copyright 2020 - Jessica Hershey
    www.github.com/jHershey69
 
@@ -22,7 +22,7 @@
 #include <Arduino.h>
 #include <string.h>
 #include "errMsgs.h"
-// #include "langCode.h"
+
 
 
 // Excludes
