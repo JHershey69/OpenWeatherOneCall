@@ -1,4 +1,4 @@
-# OpenWeatherOneCall v3.0.5   ![IMAGE OF LIGHTNING](https://github.com/JHershey69/OpenWeatherOneCall/blob/master/images/lightning.jpg)
+# OpenWeatherOneCall v3.1.0   ![IMAGE OF LIGHTNING](https://github.com/JHershey69/OpenWeatherOneCall/blob/master/images/lightning.jpg)
 ## This is for ESP32 only 
 
 **OpenWeatherOneCall** library to gather weather information from OpenWeatherMap
@@ -22,3 +22,5 @@ v3.0.0 has a **Legacy Mode** to maintain ease of use for previous versions
 <br>--added snowVolume and rainVolume, see variables sheet, returned in mm or in based on units
 <br>v3.0.5 
 <br>--minor bug fix with language selection.
+<br>v3.1.0 
+<br>--added Air Quality information (see addendum).
