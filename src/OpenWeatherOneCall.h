@@ -1,6 +1,6 @@
 /*
    OpenWeatherOnecall.h
-   Upgrade v3.0.5
+   Upgrade v3.1.0
    copyright 2020 - Jessica Hershey
    www.github.com/jHershey69
 
@@ -93,6 +93,21 @@ public:
         float LATITUDE;
         float LONGITUDE;
     } location;
+
+    struct airQuality
+    {
+        long dayTime;
+        char readableDateTime;
+        int aqi;
+        float co; // :201.94053649902344,
+        float no; //:0.01877197064459324,
+        float no2; //:0.7711350917816162,
+        float o3; //:68.66455078125,
+        float so2; //:0.6407499313354492,
+        float pm2_5; //:0.5,
+        float pm10; //:0.540438711643219,
+        float nh3; //:0.12369127571582794
+    } *quality;
 
     struct nowData
     {
@@ -254,6 +269,7 @@ private:
     int createCurrent(int);
     int setExcludes(int EXCL);
     int getLocationInfo();
+    int createAQ(int);
 
     void freeCurrentMem(void);
     void freeForecastMem(void);
@@ -261,6 +277,7 @@ private:
     void freeHourMem(void);
     void freeMinuteMem(void);
     void freeHistoryMem(void);
+    void freeQualityMem(void);
 
     //Variables
     // For eventual struct calls
