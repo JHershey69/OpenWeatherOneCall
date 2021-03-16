@@ -1,5 +1,5 @@
 /*
-   OpenWeatherOneCall.cpp v3.0.5
+   OpenWeatherOneCall.cpp v3.1.0
    copyright 2020 - Jessica Hershey
    www.github.com/JHershey69
 
@@ -23,6 +23,14 @@ OpenWeatherOneCall::OpenWeatherOneCall()
 #define DS_URL1 "https://api.openweathermap.org/data/2.5/onecall"
 char DS_URL2[100];
 #define DS_URL3 "&appid="
+
+// For Air Quality calls current *************
+#define AQ_URL1 "https://api.openweathermap.org/data/2.5/air_pollution?lat="
+#define AQ_URL2 "&lon="
+#define AQ_URL3 "&appid="
+
+
+
 
 // For Historical Weather Calls **********
 #define TS_URL1 "https://api.openweathermap.org/data/2.5/onecall/timemachine"
@@ -66,6 +74,13 @@ int OpenWeatherOneCall::parseWeather(void)
             else
                 {
                     OpenWeatherOneCall::freeHistoryMem();
+
+                    // TEST AIR QUALITY CALL *********************
+                    OpenWeatherOneCall::createAQ(384);
+
+
+                    //********************************************
+
                     int error_code = OpenWeatherOneCall::createCurrent(SIZE_CAPACITY);
 
                 }
@@ -639,6 +654,62 @@ int OpenWeatherOneCall::createHistory()
 
     http.end();
     return 0;
+}
+
+int OpenWeatherOneCall::createAQ(int sizeCap)
+{
+    char getURL[200] = {0};
+
+    sprintf(getURL,"%s%.6f%s%.6f%s%s",AQ_URL1,USER_PARAM.OPEN_WEATHER_LATITUDE,AQ_URL2,USER_PARAM.OPEN_WEATHER_LONGITUDE,AQ_URL3,USER_PARAM.OPEN_WEATHER_DKEY);
+    printf("%s\n",getURL);
+
+    HTTPClient http;
+    http.begin(getURL);
+    int httpCode = http.GET();
+
+    if (httpCode > 399)
+        {
+            if(httpCode == 401)
+                {
+                    http.end();
+                    return 22;
+                }
+
+            http.end();
+            return 21;
+
+        }
+
+    const size_t capacity = sizeCap;
+    DynamicJsonDocument doc(capacity);
+    deserializeJson(doc, http.getString());
+    doc.shrinkToFit();
+
+    quality = (struct airQuality *)calloc(1,sizeof(struct airQuality));
+
+    float coord_lon = doc["coord"]["lon"]; // -74.1975
+    float coord_lat = doc["coord"]["lat"]; // 39.9533
+
+    JsonObject list_0 = doc["list"][0];
+
+    quality -> aqi = list_0["main"]["aqi"]; // 2
+
+    JsonObject list_0_components = list_0["components"];
+    quality -> co = list_0_components["co"]; // 230.31
+    quality -> no = list_0_components["no"]; // 0.43
+    quality -> no2 = list_0_components["no2"]; // 1.69
+    quality -> o3 = list_0_components["o3"]; // 100.14
+    quality -> so2 = list_0_components["so2"]; // 0.88
+    quality -> pm2_5 = list_0_components["pm2_5"]; // 0.76
+    quality -> pm10 = list_0_components["pm10"]; // 1.04
+    quality -> nh3 = list_0_components["nh3"]; // 0.43
+
+    quality -> dayTime = list_0["dt"]; // 1615838400
+
+    http.end();
+    return 0;
+
+
 }
 
 int OpenWeatherOneCall::createCurrent(int sizeCap)
@@ -1325,6 +1396,15 @@ void OpenWeatherOneCall::freeMinuteMem(void)
         }
 }
 
+void OpenWeatherOneCall::freeQualityMem(void)
+{
+    if(quality)
+        {
+            free(quality);
+            quality = NULL;
+        }
+}
+
 char* OpenWeatherOneCall::getErrorMsgs(int _errMsg)
 {
     if((_errMsg > SIZEOF(errorMsgs)) || (_errMsg < 1))
@@ -1343,6 +1423,7 @@ OpenWeatherOneCall::~OpenWeatherOneCall()
     OpenWeatherOneCall::freeHourMem();
     OpenWeatherOneCall::freeMinuteMem();
     OpenWeatherOneCall::freeHistoryMem();
+    OpenWeatherOneCall::freeQualityMem();
 
 }
 
