@@ -116,10 +116,10 @@ void setup() {
 
   // Here we use the Lat and Lon for Pensacola, Florida (Using the predefined values)
   //OWOC.setLatLon(myLATITUDE, myLONGITUDE);
-  
+
   // If we are using CITY ID
   //OWOC.setLatLon(myCITYID);
-  
+
   // If we want to use IP Address Geolocation use no arguments
   //OWOC.setLatLon();
 
@@ -128,11 +128,11 @@ void setup() {
 
   // Set History if you want historical weather other wise NULL
   OWOC.setHistory(myHISTORY);
-   
-    // Set UNITS of MEASURE otherwise default is IMPERIAL
+
+  // Set UNITS of MEASURE otherwise default is IMPERIAL
   OWOC.setUnits(myUNITS);
 
-   //Now call the weather. Please notice no arguments are required in this call
+  //Now call the weather. Please notice no arguments are required in this call
   OWOC.parseWeather();
 
   //Now display some information, note the pointer requirement for current and alert, this is NEW for v3.0.0
@@ -167,8 +167,9 @@ void setup() {
       printf("ALERT : % s\n", OWOC.alert->summary);
     }
 
-}
+  }
 
+}
 
 void loop() {
 
