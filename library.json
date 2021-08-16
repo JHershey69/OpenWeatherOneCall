@@ -6,17 +6,16 @@
   "dependencies": 
   [
 	{
-	"name": "ArduinoJson",
-	"version": "^6.17.2"
+		"owner": "bblanchon",
+		"name": "ArduinoJson",
+		"version": "^6.17.2"
 	}
   ], 
   "repository": 
-  [
-	{
+  {
     		"type": "git",
-    		"url": "https://github.com/jhershey69/OpenWeatherOnecall.git"
-   	}
-  ],
+    		"url": "https://github.com/JHershey69/OpenWeatherOneCall.git"
+  },
   "authors": 
   [
 	{
@@ -33,6 +32,5 @@
 		]
 	},
   "frameworks": "arduino",
-  "board": "esp32dev",
   "platforms": "espressif32"
 }
