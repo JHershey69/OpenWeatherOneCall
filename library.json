@@ -6,8 +6,9 @@
   "dependencies": 
   [
 	{
-	"name": "ArduinoJson",
-	"version": "^6.17.2"
+		"owner": "bblanchon",
+		"name": "ArduinoJson",
+		"version": "^6.17.2"
 	}
   ], 
   "repository": 
