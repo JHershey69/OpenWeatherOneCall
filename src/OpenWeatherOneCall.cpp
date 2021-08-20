@@ -531,11 +531,11 @@ int OpenWeatherOneCall::createHistory()
         {
             if(USER_PARAM.OPEN_WEATHER_UNITS == 2)
                 {
-                    float temp = current["rain"];
+                    float temp = current["rain"]["1h"];
                     history[0].rainVolume = (temp/25.4); // 95
                 }
             else
-                history[0].rainVolume = current["rain"]; // 95
+                history[0].rainVolume = current["rain"]["1h"]; // 95
 
         }
 
@@ -545,11 +545,11 @@ int OpenWeatherOneCall::createHistory()
         {
             if(USER_PARAM.OPEN_WEATHER_UNITS == 2)
                 {
-                    float temp = current["snow"];
+                    float temp = current["snow"]["1h"];
                     history[0].snowVolume = (temp/25.4); // 95
                 }
             else
-                history[0].rainVolume = current["snow"]; // 95
+                history[0].rainVolume = current["snow"]["1h"]; // 95
 
         }
 
@@ -617,11 +617,11 @@ int OpenWeatherOneCall::createHistory()
                 {
                     if(USER_PARAM.OPEN_WEATHER_UNITS == 2)
                         {
-                            float temp = hourly_0["rain"];
+                            float temp = hourly_0["rain"]["1h"];
                             history[x].rainVolume = (temp/25.4); // 95
                         }
                     else
-                        history[x].rainVolume = hourly_0["rain"]; // 95
+                        history[x].rainVolume = hourly_0["rain"]["1h"]; // 95
 
                 }
 
@@ -630,11 +630,11 @@ int OpenWeatherOneCall::createHistory()
                 {
                     if(USER_PARAM.OPEN_WEATHER_UNITS == 2)
                         {
-                            float temp = hourly_0["snow"];
+                            float temp = hourly_0["snow"]["1h"];
                             history[x].snowVolume = (temp/25.4); // 95
                         }
                     else
-                        history[x].snowVolume = hourly_0["snow"]; // 95
+                        history[x].snowVolume = hourly_0["snow"]["1h"]; // 95
 
                 }
 
