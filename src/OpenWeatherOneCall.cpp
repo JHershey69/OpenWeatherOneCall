@@ -537,7 +537,7 @@ int OpenWeatherOneCall::createHistory()
             else
                 history[0].rainVolume = current["rain"]["1h"]; // 95
 
-        }
+        }else history[0].rainVolume = 0;
 
 
 
@@ -549,9 +549,9 @@ int OpenWeatherOneCall::createHistory()
                     history[0].snowVolume = (temp/25.4); // 95
                 }
             else
-                history[0].rainVolume = current["snow"]["1h"]; // 95
+                history[0].snowVolume = current["snow"]["1h"]; // 95
 
-        }
+        }else history[0].snowVolume = 0;
 
 
 
@@ -623,7 +623,7 @@ int OpenWeatherOneCall::createHistory()
                     else
                         history[x].rainVolume = hourly_0["rain"]["1h"]; // 95
 
-                }
+                }else history[0].rainVolume = 0;
 
 
             if(hourly_0["snow"])
@@ -636,7 +636,7 @@ int OpenWeatherOneCall::createHistory()
                     else
                         history[x].snowVolume = hourly_0["snow"]["1h"]; // 95
 
-                }
+                }else history[0].snowVolume = 0;
 
             JsonObject hourly_0_weather_0 = hourly_0["weather"][0];
             history[x].id = hourly_0_weather_0["id"]; // 800
