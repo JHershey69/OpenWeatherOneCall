@@ -1,5 +1,5 @@
 /*
-   OpenWeatherOneCall.cpp v3.1.0
+   OpenWeatherOneCall.cpp v3.1.3
    copyright 2020 - Jessica Hershey
    www.github.com/JHershey69
 
