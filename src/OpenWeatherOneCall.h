@@ -1,6 +1,6 @@
 /*
    OpenWeatherOnecall.h
-   Upgrade v3.1.0
+   Upgrade v3.1.5
    copyright 2020 - Jessica Hershey
    www.github.com/jHershey69
 
@@ -257,6 +257,8 @@ public:
 
     const char* short_names[7] = {"SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"};
     char buffer[40];
+    int MAX_NUM_ALERTS = 0;
+
 
 private:
 
