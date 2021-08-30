@@ -1,5 +1,5 @@
 /*
-   OpenWeatherOneCall.cpp v3.1.4
+   OpenWeatherOneCall.cpp v3.1.5
    copyright 2020 - Jessica Hershey
    www.github.com/JHershey69
 
@@ -537,7 +537,7 @@ int OpenWeatherOneCall::createHistory()
             else
                 history[0].rainVolume = current["rain"]["1h"]; // 95
 
-        }else history[0].rainVolume = 0;
+        }
 
 
 
@@ -549,9 +549,9 @@ int OpenWeatherOneCall::createHistory()
                     history[0].snowVolume = (temp/25.4); // 95
                 }
             else
-                history[0].snowVolume = current["snow"]["1h"]; // 95
+                history[0].rainVolume = current["snow"]["1h"]; // 95
 
-        }else history[0].snowVolume = 0;
+        }
 
 
 
@@ -623,7 +623,7 @@ int OpenWeatherOneCall::createHistory()
                     else
                         history[x].rainVolume = hourly_0["rain"]["1h"]; // 95
 
-                }else history[x].rainVolume = 0;
+                }
 
 
             if(hourly_0["snow"])
@@ -636,7 +636,7 @@ int OpenWeatherOneCall::createHistory()
                     else
                         history[x].snowVolume = hourly_0["snow"]["1h"]; // 95
 
-                }else history[x].snowVolume = 0;
+                }
 
             JsonObject hourly_0_weather_0 = hourly_0["weather"][0];
             history[x].id = hourly_0_weather_0["id"]; // 800
@@ -716,6 +716,7 @@ int OpenWeatherOneCall::createCurrent(int sizeCap)
 {
 
     char getURL[200] = {0};
+    int alertz = 0;
 
     sprintf(getURL,"%s?lat=%.6f&lon=%.6f&lang=%s%s&units=%s%s%s",DS_URL1,USER_PARAM.OPEN_WEATHER_LATITUDE,USER_PARAM.OPEN_WEATHER_LONGITUDE,USER_PARAM.OPEN_WEATHER_LANGUAGE,DS_URL2,units,DS_URL3,USER_PARAM.OPEN_WEATHER_DKEY);
 
@@ -990,63 +991,80 @@ int OpenWeatherOneCall::createCurrent(int sizeCap)
         {
             if(doc["alerts"][0])
                 {
+                    //count alerts here
+                    for(int z = 0; z < 10; z++)
+                        {
+                            if(doc["alerts"][z])
+                                {
+                                    MAX_NUM_ALERTS = z+1;
+                                }
+                        }
+
+                    printf("Number of ALERTS: %d\n\n",MAX_NUM_ALERTS);
+
                     if(!alert);
                     {
-                        alert = (struct ALERTS *)calloc(1,sizeof(struct ALERTS));
+                        alert = (struct ALERTS *)calloc(MAX_NUM_ALERTS,sizeof(struct ALERTS));
                         if(alert == NULL)
                             {
                                 return 23;
                             }
                     }
 
-                    JsonObject ALERTS_0 = doc["alerts"][0];
-
-                    if(ALERTS_0["sender_name"])
+                    //Start for loop of maximum alerts here
+                    for(int x = 0; x < MAX_NUM_ALERTS; x++)
                         {
-                            alert->senderName = (char *)realloc(alert->senderName,sizeof(char) * strlen(ALERTS_0["sender_name"])+1);
-                            if(alert->senderName == NULL)
+
+                            JsonObject ALERTS_0 = doc["alerts"][x];
+
+                            if(ALERTS_0["sender_name"])
                                 {
-                                    return 23;
+                                    alert[x].senderName = (char *)realloc(alert[x].senderName,sizeof(char) * strlen(ALERTS_0["sender_name"])+1);
+                                    if(alert[x].senderName == NULL)
+                                        {
+                                            return 23;
+                                        }
+                                    strncpy(alert[x].senderName,ALERTS_0["sender_name"],strlen(ALERTS_0["sender_name"])+1);
                                 }
-                            strncpy(alert->senderName,ALERTS_0["sender_name"],strlen(ALERTS_0["sender_name"])+1);
-                        }
 
-                    if(ALERTS_0["event"])
-                        {
-                            alert->event = (char *)realloc(alert->event,sizeof(char) * strlen(ALERTS_0["event"])+1);
-                            if(alert->event == NULL)
+                            if(ALERTS_0["event"])
                                 {
-                                    return 23;
+                                    alert[x].event = (char *)realloc(alert[x].event,sizeof(char) * strlen(ALERTS_0["event"])+1);
+                                    if(alert[x].event == NULL)
+                                        {
+                                            return 23;
+                                        }
+                                    strncpy(alert[x].event,ALERTS_0["event"],strlen(ALERTS_0["event"])+1);
+
                                 }
-                            strncpy(alert->event,ALERTS_0["event"],strlen(ALERTS_0["event"])+1);
 
-                        }
-
-                    if(ALERTS_0["start"])
-                        {
-                            long tempTime = ALERTS_0["start"];
-                            alert->alertStart = tempTime;
-                            tempTime += location.timezoneOffset;
-                            dateTimeConversion(tempTime,alert->startInfo,USER_PARAM.OPEN_WEATHER_DATEFORMAT);
-                        }
-
-                    if(ALERTS_0["end"])
-                        {
-                            long tempTime = ALERTS_0["end"];
-                            alert->alertEnd = tempTime;
-                            tempTime += location.timezoneOffset;
-                            dateTimeConversion(tempTime,alert->endInfo,USER_PARAM.OPEN_WEATHER_DATEFORMAT);
-                        }
-
-                    if(ALERTS_0["description"])
-                        {
-                            alert->summary = (char *)realloc(alert->summary,sizeof(char) * strlen(ALERTS_0["description"])+1);
-                            if(alert->summary == NULL)
+                            if(ALERTS_0["start"])
                                 {
-                                    return 23;
+                                    long tempTime = ALERTS_0["start"];
+                                    alert[x].alertStart = tempTime;
+                                    tempTime += location.timezoneOffset;
+                                    dateTimeConversion(tempTime,alert[x].startInfo,USER_PARAM.OPEN_WEATHER_DATEFORMAT);
                                 }
-                            strncpy(alert->summary,ALERTS_0["description"],strlen(ALERTS_0["description"])+1);
-                        }
+
+                            if(ALERTS_0["end"])
+                                {
+                                    long tempTime = ALERTS_0["end"];
+                                    alert[x].alertEnd = tempTime;
+                                    tempTime += location.timezoneOffset;
+                                    dateTimeConversion(tempTime,alert[x].endInfo,USER_PARAM.OPEN_WEATHER_DATEFORMAT);
+                                }
+
+                            if(ALERTS_0["description"])
+                                {
+                                    alert[x].summary = (char *)realloc(alert[x].summary,sizeof(char) * strlen(ALERTS_0["description"])+1);
+                                    if(alert[x].summary == NULL)
+                                        {
+                                            return 23;
+                                        }
+                                    strncpy(alert[x].summary,ALERTS_0["description"],strlen(ALERTS_0["description"])+1);
+                                }
+                        } //end for
+
                 }
         }
 
