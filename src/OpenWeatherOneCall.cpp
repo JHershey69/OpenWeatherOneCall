@@ -1378,13 +1378,16 @@ void OpenWeatherOneCall::freeAlertMem(void)
 {
     if(alert)
         {
-            free(alert->senderName);
-            free(alert->event);
-            free(alert->summary);
+            for( int x = MAX_NUM_ALERTS; x > 0; x--)
+                {
+            free(alert[x].senderName);
+            free(alert[x].event);
+            free(alert[x].summary);
+                }
             free(alert);
-            alert->senderName = NULL;
-            alert->event = NULL;
-            alert->summary = NULL;
+            alert[0].senderName = NULL;
+            alert[0].event = NULL;
+            alert[0].summary = NULL;
             alert = NULL;
         }
 }
