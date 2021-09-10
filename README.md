@@ -2,9 +2,11 @@
 ## This is for ESP32 only 
 
 **OpenWeatherOneCall** library to gather weather information from OpenWeatherMap
-<br>Requires a One Call API Key from http://openweathermap.org (Some fees involved for some actions, see documentation)<br>
-An _**optional**_ [GOOGLE API Key](https://developers.google.com/maps/documentation/javascript/get-api-key) for WiFi Triangulation<br> 
+<br>Requires a One Call API Key from http://openweathermap.org (Some fees involved for some actions, see documentation)<br><br>
+<br>
+_**Uses latitude and longitude from GPS, WIFI Triangulation, or other means user supplied**_
 Please install [**WiFiTri Library**](http://www.github.com/jhershey69/WiFiTri) for WiFi Triangulation
+An _**optional**_ [GOOGLE API Key](https://developers.google.com/maps/documentation/javascript/get-api-key) for WiFi Triangulation<br> 
 <hr>
 The easiest method for gathering information from Open Weather Map using the **One Call API**
 
