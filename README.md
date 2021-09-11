@@ -6,9 +6,10 @@
 <hr>
 **Uses latitude and longitude from GPS, WIFI Triangulation, or other means user supplied**
 <br>
-# Please install [**WiFiTri Library**](http://www.github.com/jhershey69/WiFiTri) for WiFi Triangulation
+# Please install WiFiTri Library https://www.github.com/jhershey69/WiFiTri for WiFi Triangulation
 <br>
-# An _**optional**_ [**GOOGLE API Key**](https://developers.google.com/maps/documentation/javascript/get-api-key) for WiFi Triangulation<br> 
+# A GOOGLE API Key from: https://developers.google.com/maps/documentation/javascript/get-api-key) is <font color=red>required</font> for WiFiTri
+<br>
 <hr><hr>
 The easiest method for gathering information from Open Weather Map using the **One Call API**
 
