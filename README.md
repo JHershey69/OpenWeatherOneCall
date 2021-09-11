@@ -10,9 +10,8 @@ Please install these additional libraries (as needed)
 
 - [WiFiTri Library](https://www.github.com/jhershey69/WiFiTri) for WiFi Triangulation
 - A [GOOGLE API KEY](https://developers.google.com/maps/documentation/javascript/get-api-key) is required for WiFiTri
-<br>
-<hr><hr>
-The easiest method for gathering information from Open Weather Map using the **One Call API**
+<hr>
+The easiest method for gathering information from Open Weather Map using the ###One Call API###
 
 For **Dark Sky** users migrating to a new system please refer to the Variables Document for changes.
 
