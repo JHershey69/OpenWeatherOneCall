@@ -11,11 +11,11 @@ Please install these additional libraries (as needed)
 - [WiFiTri Library](https://www.github.com/jhershey69/WiFiTri) for WiFi Triangulation
 - A [GOOGLE API KEY](https://developers.google.com/maps/documentation/javascript/get-api-key) is required for WiFiTri
 <hr>
-The easiest method for gathering information from Open Weather Map using the ###One Call API###
+The easiest method for gathering information from Open Weather Map using the ***One Call API***
 
-For **Dark Sky** users migrating to a new system please refer to the Variables Document for changes.
+For ***Dark Sky*** users migrating to a new system please refer to the Variables Document for changes.
 
-### Please make sure you read the [**User Manual**](https://github.com/JHershey69/OpenWeatherOneCall/blob/master/docs/OpenWeatherOneCall%20Manual%20v3.0.4.pdf) as v3.0.3 had many changes and new information ###
+*Please make sure you read the [**User Manual**](https://github.com/JHershey69/OpenWeatherOneCall/blob/master/docs/OpenWeatherOneCall%20Manual%20v3.0.4.pdf) as v3.0.3 had many changes and new information*
 
 v3.0.0 has a **Legacy Mode** to maintain ease of use for previous versions
 <br>**v3.0.2** 
