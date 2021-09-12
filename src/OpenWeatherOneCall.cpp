@@ -1,5 +1,5 @@
 /*
-   OpenWeatherOneCall.cpp v3.1.5
+   OpenWeatherOneCall.cpp v3.1.7
    copyright 2020 - Jessica Hershey
    www.github.com/JHershey69
 
@@ -549,9 +549,9 @@ int OpenWeatherOneCall::createHistory()
                     history[0].snowVolume = (temp/25.4); // 95
                 }
             else
-                history[0].rainVolume = current["snow"]["1h"]; // 95
+                history[0].snowVolume = current["snow"]["1h"]; // 95
 
-        }
+        }else history[0].snowVolume = 0;
 
 
 
