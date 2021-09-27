@@ -1,4 +1,4 @@
-// OpenWeatherOneCall v3.1.7
+// OpenWeatherOneCall v3.1.8
 // www.github.com/jhershey69
 
 #include <time.h>
