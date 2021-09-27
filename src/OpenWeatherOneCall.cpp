@@ -1,5 +1,5 @@
 /*
-   OpenWeatherOneCall.cpp v3.1.5
+   OpenWeatherOneCall.cpp v3.1.8
    copyright 2020 - Jessica Hershey
    www.github.com/JHershey69
 
@@ -815,11 +815,9 @@ int OpenWeatherOneCall::createCurrent(int sizeCap)
                         {
                             float temp = currently["snow"]["1h"];
                             current->snowVolume = (temp/25.4); // 95
-                        }
-                    else
-                        current->snowVolume = currently["snow"]["1h"]; // 95
+                        } else current->snowVolume = currently["snow"]["1h"]; // 95
 
-                }
+                } else current->snowVolume = 0;
 
             if(currently["rain"]["1h"])
                 {
@@ -827,11 +825,9 @@ int OpenWeatherOneCall::createCurrent(int sizeCap)
                         {
                             float temp = currently["rain"]["1h"];
                             current->rainVolume = (temp/25.4); // 95
-                        }
-                    else
-                        current->rainVolume = currently["rain"]["1h"]; // 95
+                        } else current->rainVolume = currently["rain"]["1h"]; // 95
 
-                }
+                } else current->rainVolume = 0;
 
 
 
@@ -958,11 +954,9 @@ int OpenWeatherOneCall::createCurrent(int sizeCap)
                                 {
                                     float temp = daily[x]["rain"];
                                     forecast[x].rainVolume = (temp/25.4); // 95
-                                }
-                            else
-                                forecast[x].rainVolume = daily[x]["rain"]; // 95
+                                } else forecast[x].rainVolume = daily[x]["rain"]; // 95
 
-                        }
+                        } else forecast[x].rainVolume = 0; // 95
 
 
                     if(daily[x]["snow"])
@@ -971,11 +965,10 @@ int OpenWeatherOneCall::createCurrent(int sizeCap)
                                 {
                                     float temp = daily[x]["snow"];
                                     forecast[x].snowVolume = (temp/25.4); // 95
-                                }
-                            else
-                                forecast[x].snowVolume = daily[x]["snow"]; // 95
+                                } else forecast[x].snowVolume = daily[x]["snow"]; // 95
 
-                        }
+                        } else forecast[x].snowVolume = 0;
+               
                     forecast[x].uvIndex = daily[x]["uvi"]; // 6.31
 
                     dateTimeConversion(forecast[x].dayTime,forecast[x].weekDayName,9);
@@ -1109,11 +1102,9 @@ int OpenWeatherOneCall::createCurrent(int sizeCap)
                                         {
                                             float temp = hourly_0["snow"];
                                             hour[h].snowVolume = (temp/25.4); // 95
-                                        }
-                                    else
-                                        hour[h].snowVolume = hourly_0["snow"]; // 95
+                                        } else hour[h].snowVolume = hourly_0["snow"]; // 95
 
-                                }
+                                } else hour[h].snowVolume = 0;
 
 
                             if(hourly_0["rain"])
@@ -1122,11 +1113,9 @@ int OpenWeatherOneCall::createCurrent(int sizeCap)
                                         {
                                             float temp = hourly_0["rain"];
                                             hour[h].rainVolume = (temp/25.4); // 95
-                                        }
-                                    else
-                                        hour[h].rainVolume = hourly_0["rain"]; // 95
+                                        } else hour[h].rainVolume = hourly_0["rain"]; // 95
 
-                                }
+                                } else hour[h].rainVolume = 0;
 
 
                             JsonObject hourly_0_weather_0 = hourly_0["weather"][0];
