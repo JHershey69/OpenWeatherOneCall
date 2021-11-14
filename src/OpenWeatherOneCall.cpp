@@ -1,5 +1,5 @@
 /*
-   OpenWeatherOneCall.cpp v3.1.8
+   OpenWeatherOneCall.cpp v3.1.9
    copyright 2020 - Jessica Hershey
    www.github.com/JHershey69
 
@@ -968,7 +968,7 @@ int OpenWeatherOneCall::createCurrent(int sizeCap)
                                 } else forecast[x].snowVolume = daily[x]["snow"]; // 95
 
                         } else forecast[x].snowVolume = 0;
-               
+
                     forecast[x].uvIndex = daily[x]["uvi"]; // 6.31
 
                     dateTimeConversion(forecast[x].dayTime,forecast[x].weekDayName,9);
@@ -1058,6 +1058,10 @@ int OpenWeatherOneCall::createCurrent(int sizeCap)
                                 }
                         } //end for
 
+                }else{
+                // If alerts are not excluded but there are none, reset NUM_MAX_ALERTS and MEMORY
+                MAX_NUM_ALERTS = 0;
+                OpenWeatherOneCall::freeAlertMem();
                 }
         }
 
