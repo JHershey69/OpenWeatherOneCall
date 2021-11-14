@@ -1,4 +1,4 @@
-# OpenWeatherOneCall v3.1.8   ![IMAGE OF LIGHTNING](https://github.com/JHershey69/OpenWeatherOneCall/blob/master/images/lightning.jpg)
+# OpenWeatherOneCall v3.1.9   ![IMAGE OF LIGHTNING](https://github.com/JHershey69/OpenWeatherOneCall/blob/master/images/lightning.jpg)
 ## This is for ESP32 only 
 
 **OpenWeatherOneCall** library to gather weather information from OpenWeatherMap
@@ -43,3 +43,5 @@ v3.0.0 has a **Legacy Mode** to maintain ease of use for previous versions
 <br>--Multiple Alerts memory fix.
 <br>**v3.1.7, 3.1.8** 
 <br>--Fixed missing code.
+<br>**v3.1.9** 
+<br>--Minor fix to clear old alerts.
