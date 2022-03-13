@@ -120,6 +120,11 @@ public:
         char readableSunset[5];
         float temperature; // 46.38
         float apparentTemperature; // 41.49
+        long moonriseTime; // 1582112760
+        char readableMoonrise[5];
+        long moonsetTime; // 1582151880
+        char readableMoonset[5];
+        float moonPhase; // 46.38
         float pressure; // 1026.4
         float humidity; // 0.31
         float dewPoint; // 17.18
