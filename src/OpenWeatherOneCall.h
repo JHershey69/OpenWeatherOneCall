@@ -1,6 +1,6 @@
 /*
    OpenWeatherOnecall.h
-   Upgrade v3.1.8
+   Upgrade v3.2.0
    copyright 2020 - Jessica Hershey
    www.github.com/jHershey69
 
