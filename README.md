@@ -1,6 +1,10 @@
 # OpenWeatherOneCall v3.1.9   ![IMAGE OF LIGHTNING](https://github.com/JHershey69/OpenWeatherOneCall/blob/master/images/lightning.jpg)
 ## This is for ESP32 only 
 
+**Please be advised** OpenWeather has changed ONE CALL to a subscription service. Signing up is
+required to get your KEY, but you get 1000 calls a day for free (this is one call every 15 minutes)
+and you will continue to get all of the features of this library.
+
 **OpenWeatherOneCall** library to gather weather information from OpenWeatherMap
 <br>Requires a One Call API Key from http://openweathermap.org (Some fees involved for some actions, see documentation)<br>
 <hr>
