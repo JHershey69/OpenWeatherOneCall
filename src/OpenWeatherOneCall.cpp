@@ -1,5 +1,5 @@
 /*
-   OpenWeatherOneCall.cpp v3.1.9
+   OpenWeatherOneCall.cpp v3.3.0
    copyright 2020 - Jessica Hershey
    www.github.com/JHershey69
 
@@ -20,12 +20,12 @@ OpenWeatherOneCall::OpenWeatherOneCall()
 }
 
 // For Normal Weather calls *************
-#define DS_URL1 "https://api.openweathermap.org/data/2.5/onecall"
+#define DS_URL1 "https://api.openweathermap.org/data/3.0/onecall"
 char DS_URL2[100];
 #define DS_URL3 "&appid="
 
 // For Air Quality calls current *************
-#define AQ_URL1 "https://api.openweathermap.org/data/2.5/air_pollution?lat="
+#define AQ_URL1 "https://api.openweathermap.org/data/3.0/air_pollution?lat="
 #define AQ_URL2 "&lon="
 #define AQ_URL3 "&appid="
 
@@ -33,11 +33,11 @@ char DS_URL2[100];
 
 
 // For Historical Weather Calls **********
-#define TS_URL1 "https://api.openweathermap.org/data/2.5/onecall/timemachine"
+#define TS_URL1 "https://api.openweathermap.org/data/3.0/onecall/timemachine"
 #define TS_URL2 "&dt="
 
 // For CITY Id calls
-#define CI_URL1 "api.openweathermap.org/data/2.5/weather?id="
+#define CI_URL1 "api.openweathermap.org/data/3.0/weather?id="
 #define CI_URL2 "&appid="
 
 #define SIZEOF(a) sizeof(a)/sizeof(*a)
@@ -152,7 +152,7 @@ int OpenWeatherOneCall::setLatLon(int _CITY_ID)
     int error_code = 0;
 
     char cityURL[110];
-    char* URL1 = "http://api.openweathermap.org/data/2.5/weather?id=";
+    char* URL1 = "http://api.openweathermap.org/data/3.0/weather?id=";
     char* URL2 = "&appid=";
 
     sprintf(cityURL,"%s%d%s%s",URL1,_CITY_ID,URL2,USER_PARAM.OPEN_WEATHER_DKEY);
@@ -421,7 +421,7 @@ int OpenWeatherOneCall::createHistory()
 
     //Gets Timestamp for EPOCH calculation below
     char tempURL[200];
-    sprintf(tempURL,"https://api.openweathermap.org/data/2.5/onecall?lat=%.6f&lon=%.6f&exclude=minutely,hourly,daily,alerts&units=IMPERIAL&appid=%s",USER_PARAM.OPEN_WEATHER_LATITUDE,USER_PARAM.OPEN_WEATHER_LONGITUDE,USER_PARAM.OPEN_WEATHER_DKEY);
+    sprintf(tempURL,"https://api.openweathermap.org/data/3.0/onecall?lat=%.6f&lon=%.6f&exclude=minutely,hourly,daily,alerts&units=IMPERIAL&appid=%s",USER_PARAM.OPEN_WEATHER_LATITUDE,USER_PARAM.OPEN_WEATHER_LONGITUDE,USER_PARAM.OPEN_WEATHER_DKEY);
 
     HTTPClient http;
     http.begin(tempURL);
