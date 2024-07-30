@@ -1,10 +1,8 @@
 /*
    Open Weather One Call Library
-   v3.3.1
+   v3.0.4
    Copyright 2020 - Jessica Hershey
    www.github.com/JHershey69
-
-   Sample Simple Longitude Latitude Weather Call updated 7/30/2024 to show Air Quality calls example
 
    One Call API key at www.openweathermap.org
    Google Developer Key no longer required.
@@ -32,9 +30,9 @@ TFT_eSPI tft = TFT_eSPI();       // Invoke custom library
 //========= End TFT Library =============================
 
 
-#define HOMESSID "SSID HERE"
-#define HOMEPW "PASSWORD HERE"
-#define ONECALLKEY "OPENWEATHER ONE CALL API KEY HERE"
+#define HOMESSID "YOUR SSID HERE"
+#define HOMEPW "YOUR SSID PW HERE"
+#define ONECALLKEY "YOUR ONE CALL API KEY HERE"
 
 // Only needed if WiFiTri installed for Triangulation may have fee from Google
 #define GOOGLEKEY "YOUR GOOGLE DEVELOPER API KEY""
@@ -43,7 +41,7 @@ TFT_eSPI tft = TFT_eSPI();       // Invoke custom library
 //  OpenWeatherOneCall variables
 
 //For Latitude and Longitude Location setting if used
-float myLATITUDE = 39.9537;    //<-----Toms River, NJ
+float myLATITUDE = 39.9537;    //<-----This is Toms River, NJ
 float myLONGITUDE = -74.1979;
 
 //For City ID Location setting if used
@@ -55,7 +53,7 @@ int myUNITS = IMPERIAL;          //<-----METRIC, IMPERIAL, KELVIN (IMPERIAL is d
 int myHISTORY = NULL;            //<-----Only required for historical data up to 5 days
 
 //See manual for excludes, only CURRENT Data allows 1,000,000 calls a month
-int myEXCLUDES = EXCL_A+EXCL_D+EXCL_H+EXCL_M;              //<-----0 Excludes is default
+int myEXCLUDES = EXCL_D+EXCL_H+EXCL_M;              //<-----0 Excludes is default
 
 
 //for debugging loop counting
@@ -159,7 +157,7 @@ void setup() {
 
     if(OWOC.quality)  //See Addendum for complete list of Air Quality Variables
     {
-      printf("\nAir Quality\n");
+      printf("\nAir Quality : % d\n", OWOC.quality->aqi);
       printf("Carbon : % .2f\n", OWOC.quality->co);
       printf("Nitrogen : % .2f\n", OWOC.quality->no);
       printf("Ozone : % .2f\n", OWOC.quality->o3);
@@ -172,10 +170,11 @@ void setup() {
 
     if (OWOC.alert)   //Only if ALERTS aren't excluded
     {
-      printf("ALERT *** ALERT *** ALERT\n");
+      printf("\nALERT *** ALERT *** ALERT\n");
       printf("Sender : % s\n", OWOC.alert->senderName);
       printf("Event : % s\n", OWOC.alert->event);
       printf("ALERT : % s\n", OWOC.alert->summary);
+    } else {printf("\nNo Alerts For Area\n");
     }
 
   }

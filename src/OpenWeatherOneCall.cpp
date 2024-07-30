@@ -1,5 +1,5 @@
 /*
-   OpenWeatherOneCall.cpp v3.3.2
+   OpenWeatherOneCall.cpp v3.3.3
    copyright 2020 - Jessica Hershey
    www.github.com/JHershey69
 
@@ -47,10 +47,12 @@ int OpenWeatherOneCall::parseWeather(void)
 {
     int error_code = 0;
 
+    // WiFi.status not declared in this scope error
     if (WiFi.status() != WL_CONNECTED)
         {
             return 25;
         }
+    // End WiFi error
 
     unsigned int SIZE_CAPACITY = 32768;
 
@@ -661,7 +663,7 @@ int OpenWeatherOneCall::createAQ(int sizeCap)
     char getURL[200] = {0};
 
     sprintf(getURL,"%s%.6f%s%.6f%s%s",AQ_URL1,USER_PARAM.OPEN_WEATHER_LATITUDE,AQ_URL2,USER_PARAM.OPEN_WEATHER_LONGITUDE,AQ_URL3,USER_PARAM.OPEN_WEATHER_DKEY);
-    printf("%s\n",getURL);
+    // printf("%s\n",getURL);
 
     HTTPClient http;
     http.begin(getURL);
@@ -719,7 +721,7 @@ int OpenWeatherOneCall::createCurrent(int sizeCap)
     int alertz = 0;
 
     sprintf(getURL,"%s?lat=%.6f&lon=%.6f&lang=%s%s&units=%s%s%s",DS_URL1,USER_PARAM.OPEN_WEATHER_LATITUDE,USER_PARAM.OPEN_WEATHER_LONGITUDE,USER_PARAM.OPEN_WEATHER_LANGUAGE,DS_URL2,units,DS_URL3,USER_PARAM.OPEN_WEATHER_DKEY);
-
+    // printf("\n%s\n",getURL);
 
     HTTPClient http;
     http.begin(getURL);
