@@ -1,7 +1,7 @@
-# OpenWeatherOneCall v3.3.2   ![IMAGE OF LIGHTNING](https://github.com/JHershey69/OpenWeatherOneCall/blob/master/images/lightning.jpg)
+# OpenWeatherOneCall v3.3.3   ![IMAGE OF LIGHTNING](https://github.com/JHershey69/OpenWeatherOneCall/blob/master/images/lightning.jpg)
 ## This is for ESP32 only 
 
-##This is an upgrade for OpenWeatherMap API 3.0
+##This is an upgrade for OpenWeatherMap API 3.0 and Air Pollution API 2.5
 
 **Please be advised** OpenWeather has changed ONE CALL to a subscription service. Signing up is
 required to get your KEY, but you get 1000 calls a day for free (this is one call every 90 seconds and that is A LOT for free)
@@ -55,5 +55,6 @@ v3.0.0 has a **Legacy Mode** to maintain ease of use for previous versions
 <br>--Minor fix to update API change.
 <br>**v3.3.2** 
 <br>--Minor fix to update API change for Air Quality.
-
+<br>**v3.3.3** 
+<br>--Minor fix to update API change for Air Quality and Example scripts.
 
