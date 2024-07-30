@@ -1,4 +1,4 @@
-# OpenWeatherOneCall v3.3.1   ![IMAGE OF LIGHTNING](https://github.com/JHershey69/OpenWeatherOneCall/blob/master/images/lightning.jpg)
+# OpenWeatherOneCall v3.3.2   ![IMAGE OF LIGHTNING](https://github.com/JHershey69/OpenWeatherOneCall/blob/master/images/lightning.jpg)
 ## This is for ESP32 only 
 
 ##This is an upgrade for OpenWeatherMap API 3.0
@@ -53,4 +53,7 @@ v3.0.0 has a **Legacy Mode** to maintain ease of use for previous versions
 <br>--Minor fix to clear old alerts.
 <br>**v3.3.0** 
 <br>--Minor fix to update API change.
+<br>**v3.3.2** 
+<br>--Minor fix to update API change for Air Quality.
+
 
