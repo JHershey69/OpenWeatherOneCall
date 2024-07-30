@@ -1,5 +1,5 @@
 /*
-   OpenWeatherOneCall.cpp v3.3.0
+   OpenWeatherOneCall.cpp v3.3.2
    copyright 2020 - Jessica Hershey
    www.github.com/JHershey69
 
@@ -25,7 +25,7 @@ char DS_URL2[100];
 #define DS_URL3 "&appid="
 
 // For Air Quality calls current *************
-#define AQ_URL1 "https://api.openweathermap.org/data/3.0/air_pollution?lat="
+#define AQ_URL1 "https://api.openweathermap.org/data/2.5/air_pollution?lat="
 #define AQ_URL2 "&lon="
 #define AQ_URL3 "&appid="
 
