@@ -1,6 +1,6 @@
 {
   "name": "OpenWeatherOneCall",
-  "version": "3.3.3",
+  "version": "4.0.0",
   "keywords": "openweather, darksky, weather, esp32, arduino",
   "description": "OpenWeatherMap Library to use One Call on the ESP32. This library allows the ESP32 to receive and parse the json from OpenWeatherMap",
   "dependencies": 
@@ -8,7 +8,7 @@
 	{
 		"owner": "bblanchon",
 		"name": "ArduinoJson",
-		"version": "^6.17.2"
+		"version": "^7.0.0"
 	}
   ], 
   "repository": 
