@@ -44,7 +44,7 @@ char ONECALLKEY[] = "YOUR ONE CALL KEY HERE";
 
 //*************** LOCATION ************************
 
-int myTimeZone = -4;  //<--------- GMT OFFSET only used in OVERVIEW
+int myTimeZone = -4;  //<--------- GMT OFFSET
 
 //Location MODES are used to tell the program how you are delivering your coordinates:
 // 1 LAT/LON  <----- Can be from GPS, manual as below, or whatever method gets you a latitude and longitude except IP location
