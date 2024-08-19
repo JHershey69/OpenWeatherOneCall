@@ -1,5 +1,5 @@
 /*
-   OpenWeatherOneCall.cpp v4.0.0
+   OpenWeatherOneCall.cpp v4.0.1
    Updated for ArduinoJSON v7 on Aug 1, 2024
    copyright 2020/2024 - Jessica Hershey
    www.github.com/JHershey69
