@@ -19,6 +19,11 @@ void dateTimeConversion(long _epoch, char *_buffer, int _format)
     9 DAY SHORTNAME
     10 M/D/Y ONLY
     11 D/M/Y ONLY
+
+    ISO8601 options
+    12 YYYY-MM-DD ONLY
+    13 THH:MM:SS ONLY
+    14 YYYY-MM-DDTHH:MM:SS
     */
 
     // NTP Server
@@ -81,6 +86,18 @@ void dateTimeConversion(long _epoch, char *_buffer, int _format)
         case 11:
             // D/M/Y 24H
             strftime(_buffer,20,"%d/%m/%Y",ptm);
+            break;
+        case 12:
+            // ISO 8601 YYYY-MM-DD
+            strftime(_buffer,20,"%F",ptm);
+            break;
+        case 13:
+            // ISO8601 THH:MM:SS
+            strftime(_buffer,20,"T%T",ptm);
+            break;
+        case 14:
+            // ISO8601 YYYY-MM-DDTHH:MM:SS
+            strftime(_buffer,20,"%FT%T",ptm);
             break;
         default:
             // M/D/Y 24H
