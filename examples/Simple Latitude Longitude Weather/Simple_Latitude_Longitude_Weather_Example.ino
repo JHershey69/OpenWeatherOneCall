@@ -85,11 +85,22 @@ int myEXCLUDES = 0;  //<-----0 Excludes is default
 int myUNITS = IMPERIAL;  //<-----METRIC, IMPERIAL, KELVIN (IMPERIAL is default)
 
 //Date Time Format
-int myDTF = 1;  //1 M/D/Y 24H
-                // 2 D/M/Y 24H
-                // 3 M/D/Y 12H
-                // 4 D/M/Y 12H
-
+int myDTF = 1;     /*
+                     1 M/D/Y 24H
+                     2 D/M/Y 24H
+                     3 M/D/Y 12H
+                     4 D/M/Y 12H
+                     5/6 TIME ONLY 24H
+                     7/8 TIME ONLY 12H
+                     9 DAY SHORTNAME
+                     10 M/D/Y ONLY, 
+                     11 D/M/Y ONLY
+                     
+                     ISO8601 options: 
+                     12 YYYY-MM-DD ONLY, 
+                     13 THH:MM:SS ONLY
+                     14 YYYY-MM-DDTHH:MM:SSY 24H 
+                     */
 //************************************************************************
 
 //for debugging loop counting
