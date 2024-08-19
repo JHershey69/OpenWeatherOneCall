@@ -1,4 +1,4 @@
-# OpenWeatherOneCall v4.0.0  ![IMAGE OF LIGHTNING](https://github.com/JHershey69/OpenWeatherOneCall/blob/master/images/lightning.jpg)
+# OpenWeatherOneCall v4.0.1  ![IMAGE OF LIGHTNING](https://github.com/JHershey69/OpenWeatherOneCall/blob/master/images/lightning.jpg)
 ## This is for ESP32 only 
 
 ##This is an upgrade for OpenWeatherMap API 3.0 and Air Pollution API 2.5
@@ -14,6 +14,7 @@ and you will continue to get all of the features of this library.
 <br>
 Please install these additional libraries (as needed) 
 
+- [ESP32Time] for time functions
 - [WiFiTri Library](https://www.github.com/jhershey69/WiFiTri) for WiFi Triangulation
 -- A [GOOGLE API KEY](https://developers.google.com/maps/documentation/javascript/get-api-key) is required for WiFiTri
 <hr>
@@ -23,40 +24,9 @@ For ***Dark Sky*** users migrating to a new system please refer to the Variables
 
 *Please make sure you read the [**User Manual**](https://github.com/JHershey69/OpenWeatherOneCall/blob/master/docs/OpenWeatherOneCall%20Manual%20v3.0.4.pdf) as v3.0.3 had many changes and new information*
 
-v3.0.0 has a **Legacy Mode** to maintain ease of use for previous versions
-<br>**v3.0.2** 
-<br>--fixed a couple of things so I could release the same thng with a new number
-<br>**v3.0.3** 
-<br>--added HUMAN READABLE date and time formats, see manual and variable sheet.
-<br>--Date formats now selectable MM/DD/YY, DD/MM/YY. Time available in 24 or 12 Hour format.
-<br>--Remove dependancies on all external libraries. Only ArduinoJson v6+ is required now.
-<br>**v3.0.4** 
-<br>--added HUMAN READABLE sunrise and sunset for CURRENT, see manual and variable sheet.
-<br>--added snowVolume and rainVolume, see variables sheet, returned in mm or in based on units
-<br>**v3.0.5** 
-<br>--minor bug fix with language selection.
-<br>**v3.1.0** 
-<br>--added Air Quality information (see addendum).
-<br>**v3.1.1** 
-<br>--minor bug fix to historical rain and snow.
-<br>**v3.1.2** 
-<br>--minor bug fix to library files.
-<br>**v3.1.3, v3.1.4** 
-<br>--minor bug fix to historical rain and snow.
-<br>**v3.1.5** 
-<br>--Multiple Alerts update (see added docs).
-<br>**v3.1.6** 
-<br>--Multiple Alerts memory fix.
-<br>**v3.1.7, 3.1.8** 
-<br>--Fixed missing code.
-<br>**v3.1.9** 
-<br>--Minor fix to clear old alerts.
-<br>**v3.3.0** 
-<br>--Minor fix to update API change.
-<br>**v3.3.2** 
-<br>--Minor fix to update API change for Air Quality.
-<br>**v3.3.3** 
-<br>--Minor fix to update API change for Air Quality and Example scripts.
 <br>**v4.0.0** 
 <br>--MAJOR REWRITE with addition options and variable SEE DOCUMENTATION. Some features deprecated no longer supported.
+<br>**v4.0.1** 
+<br>--ADDED ISO 8601 Human Readable format to Date Time Format.
+
 
