@@ -1,4 +1,4 @@
-# OpenWeatherOneCall v4.0.1  ![IMAGE OF LIGHTNING](https://github.com/JHershey69/OpenWeatherOneCall/blob/master/images/lightning.jpg)
+# OpenWeatherOneCall v4.0.3  ![IMAGE OF LIGHTNING](https://github.com/JHershey69/OpenWeatherOneCall/blob/master/images/lightning.jpg)
 ## This is for ESP32 only 
 
 ##This is an upgrade for OpenWeatherMap API 3.0 and Air Pollution API 2.5
@@ -28,5 +28,7 @@ For ***Dark Sky*** users migrating to a new system please refer to the Variables
 <br>--MAJOR REWRITE with addition options and variable SEE DOCUMENTATION. Some features deprecated no longer supported.
 <br>**v4.0.1** 
 <br>--ADDED ISO 8601 Human Readable format to Date Time Format.
+<br>**v4.0.3** 
+<br>--Corrected a DATE numbering issue.
 
 
