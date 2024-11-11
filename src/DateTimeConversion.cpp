@@ -1,4 +1,4 @@
-// OpenWeatherOneCall v4.0.0
+// OpenWeatherOneCall v4.0.3
 // www.github.com/jhershey69
 // DO NOT EDIT
 
@@ -39,8 +39,8 @@ void dateTimeConversion(long _epoch, char *_buffer, int _format)
     time_t rawtime = _epoch;
     struct tm *ptm = localtime(&rawtime);
 
-    // Add 1 to the day
-    ptm->tm_mday += 1;
+    // Add 1 to the day as of 11/10/2024 this is being removed
+    // ptm->tm_mday += 1;
 
     // Normalize the time structure (this handles overflow of days, months, etc.)
     mktime(ptm);
